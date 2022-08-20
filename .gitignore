@@ -1,0 +1,4 @@
+/build
+/out
+/test/**/LearningProgressTrackerTest.java
+build.gradle
