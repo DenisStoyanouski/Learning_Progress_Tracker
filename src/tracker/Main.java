@@ -67,23 +67,34 @@ public class Main {
     //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes
     //  at least 2 symbols'.
     protected static boolean isFirstNameCorrect(String firstName) {
-        return firstName.matches("[A-Z]['A-Za-z\\-]+");
+        boolean isFirstNameCorrect = false;
+        if (firstName.matches("[A-Z]['A-Za-z\\-]+")) {
+            isFirstNameCorrect = true;
+        } else {
+            System.out.println("Incorrect first name.");
+        }
+        return isFirstNameCorrect;
     }
     //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes '
     //  at least 2 symbols. Can contain one or more words without district.
     protected static boolean isLastNameCorrect(String lastName) {
-        return lastName.matches("[A-Z]['A-Za-z\\-\\s]+");
+        boolean isLastNameCorrect = false;
+        if (lastName.matches("[A-Z]['A-Za-z\\-\\s]+")) {
+            isLastNameCorrect = true;
+        } else {
+            System.out.println("Incorrect last name.");
+        }
+        return isLastNameCorrect;
     }
 
-    protected static String isEmail(String credentials) {
-        String[] credentialsOfStudent = credentials.split("\\s+");
-        String firstName = credentialsOfStudent[0];
-        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
-        String lastName = "";
-        for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
-            lastName = credentialsOfStudent[i] + " ";
+    protected static boolean isEmailCorrect(String email) {
+        boolean isEmailCorrect = false;
+        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,256}[.][\\w-]{3,63}")) {
+            isEmailCorrect = true;
+        } else {
+            System.out.println("Incorrect email.");
         }
-        return email;
+        return isEmailCorrect;
     }
     /*private static boolean isStudent(String input) {
 
