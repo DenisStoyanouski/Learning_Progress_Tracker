@@ -9,7 +9,7 @@ public class Main {
     public static void main(String[] args) {
         System.out.println("Learning Progress Tracker");
         String a;
-        do{
+        do {
             a = input();
             if (a.isBlank()) {
                 System.out.println("No input");
@@ -40,8 +40,44 @@ public class Main {
             input = input();
             if ("back".equals(input)) {
                 System.out.printf("Total %d students have been added.", addedNumberOfStudents);
+            } else {
+                isFirstName(input);
+                addedNumberOfStudents++;
             }
         } while (!"back".equals(input));
+    }
+
+    protected static String isFirstName(String credentials) {
+        String[] credentialsOfStudent = credentials.split("\\s+");
+        String firstName = credentialsOfStudent[0];
+        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
+        String lastName = "";
+        for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
+            lastName = credentialsOfStudent[i] + " ";
+        }
+        return firstName;
+    }
+
+    protected static String isLastName(String credentials) {
+        String[] credentialsOfStudent = credentials.split("\\s+");
+        String firstName = credentialsOfStudent[0];
+        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
+        String lastName = "";
+        for (int i = 1; i <= credentialsOfStudent.length - 2; i++) {
+            lastName = credentialsOfStudent[i] + " ";
+        }
+        return lastName.strip();
+    }
+
+    protected static String isEmail(String credentials) {
+        String[] credentialsOfStudent = credentials.split("\\s+");
+        String firstName = credentialsOfStudent[0];
+        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
+        String lastName = "";
+        for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
+            lastName = credentialsOfStudent[i] + " ";
+        }
+        return email;
     }
     /*private static boolean isStudent(String input) {
 
