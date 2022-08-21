@@ -87,17 +87,19 @@ public class Main {
         return isLastNameCorrect;
     }
 
+    /*The local part can be up to 64 characters in length and consist of any combination of alphabetic characters,
+    digits, or any of the following special characters: ! # $ % & ‘ * + – / = ? ^ _ ` . { | } ~
+    The domain part cannot be more than 255 characters in length and must conform to the specification for hostnames
+    which is a list of dot-separated DNS labels. Each DNS label must not exceed 63 characters and should consist
+    of any combination of alphabetic characters, digits and hyphens.*/
     protected static boolean isEmailCorrect(String email) {
         boolean isEmailCorrect = false;
-        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,256}[.][\\w-]{3,63}")) {
+        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,192}[.][\\w-]{3,63}")) {
             isEmailCorrect = true;
         } else {
             System.out.println("Incorrect email.");
         }
         return isEmailCorrect;
     }
-    /*private static boolean isStudent(String input) {
-
-    }*/
 
 }
