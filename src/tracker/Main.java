@@ -41,32 +41,38 @@ public class Main {
             if ("back".equals(input)) {
                 System.out.printf("Total %d students have been added.", addedNumberOfStudents);
             } else {
-                isFirstName(input);
+                isCorrectCredentials(input);
                 addedNumberOfStudents++;
             }
         } while (!"back".equals(input));
     }
 
-    protected static String isFirstName(String credentials) {
+    protected static boolean isCorrectCredentials(String credentials) {
+
         String[] credentialsOfStudent = credentials.split("\\s+");
         String firstName = credentialsOfStudent[0];
         String email = credentialsOfStudent[credentialsOfStudent.length - 1];
         String lastName = "";
         for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
-            lastName = credentialsOfStudent[i] + " ";
+            lastName = lastName + credentialsOfStudent[i] + " ";
         }
-        return firstName;
+
+        boolean correct = true;
+        if (isFirstNameCorrect(firstName)) {
+            System.out.println("Incorrect first name.");
+        }
+        return correct;
     }
 
-    protected static String isLastName(String credentials) {
-        String[] credentialsOfStudent = credentials.split("\\s+");
-        String firstName = credentialsOfStudent[0];
-        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
-        String lastName = "";
-        for (int i = 1; i <= credentialsOfStudent.length - 2; i++) {
-            lastName = credentialsOfStudent[i] + " ";
-        }
-        return lastName.strip();
+    //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes
+    //  at least 2 symbols'.
+    protected static boolean isFirstNameCorrect(String firstName) {
+        return firstName.matches("[A-Z]['A-Za-z\\-]+");
+    }
+    //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes '
+    //  at least 2 symbols. Can contain one or more words without district.
+    protected static boolean isLastNameCorrect(String lastName) {
+        return lastName.matches("[A-Z]['A-Za-z\\-\\s]+");
     }
 
     protected static String isEmail(String credentials) {
