@@ -23,13 +23,9 @@ public class Main {
     }
 
     private static String input() {
-        String input = "";
         try (Scanner sc = new Scanner(System.in)) {
-            input = sc.nextLine().strip();
-        } catch (Exception e) {
-            e.getMessage();
+            return sc.nextLine().strip();
         }
-        return input;
     }
 
     private static void addStudents() {
