@@ -45,21 +45,24 @@ public class Main {
     }
 
     protected static boolean isCorrectCredentials(String credentials) {
+        boolean isCorrectCredentials = false;
 
         String[] credentialsOfStudent = credentials.split("\\s+");
         if (credentialsOfStudent.length < 3) {
             System.out.println("Incorrect credentials");
+        } else {
+            String firstName = credentialsOfStudent[0];
+            String email = credentialsOfStudent[credentialsOfStudent.length - 1];
+            StringBuilder lastName = new StringBuilder();
+            for (int i = 1; i <= credentialsOfStudent.length - 2; i++) {
+                lastName.append(credentialsOfStudent[i]);
+                lastName.append(" ");
+            }
+            lastName.deleteCharAt(lastName.lastIndexOf(lastName.toString()));
+            isCorrectCredentials = isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
         }
-        String firstName = credentialsOfStudent[0];
-        String email = credentialsOfStudent[credentialsOfStudent.length - 1];
-        StringBuilder lastName = new StringBuilder();
-        for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
-            lastName.append(credentialsOfStudent[i]);
-            lastName.append(" ");
-        }
-        lastName.deleteCharAt(lastName.lastIndexOf(lastName.toString()));
 
-        return isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
+        return isCorrectCredentials;
     }
 
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,

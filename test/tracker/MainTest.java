@@ -120,6 +120,27 @@ class MainTest {
         assertFalse(isEmailCorrect(email));
     }
 
+    @Test
+    @DisplayName("John Doe jdoe@mail.net - correct")
+    void testCorrectCredentials1() {
+        String credentials = "John Doe jdoe@mail.net";
+        assertTrue(isCorrectCredentials(credentials));
+    }
+
+    @Test
+    @DisplayName("Jane Doe jane.doe@yahoo.com - correct")
+    void testCorrectCredentials2() {
+        String credentials = "Jane Doe jane.doe@yahoo.com";
+        assertTrue(isCorrectCredentials(credentials));
+    }
+
+    @Test
+    @DisplayName(" help - incorrect")
+    void testCorrectCredentials3() {
+        String credentials = "help";
+        assertFalse(isCorrectCredentials(credentials));
+    }
+
 
 
 
