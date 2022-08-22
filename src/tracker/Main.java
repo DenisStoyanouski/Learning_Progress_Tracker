@@ -62,11 +62,12 @@ public class Main {
         return isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
     }
 
-    //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes
-    //  at least two characters long.
+    /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
+    at least two characters long, hyphens and apostrophes - not at the first or the last character,
+    cannot be adjacent to each other.*/
     protected static boolean isFirstNameCorrect(String firstName) {
         boolean isFirstNameCorrect = false;
-        if (firstName.matches("[A-Z]['A-Za-z\\-]?[a-z]")) {
+        if (firstName.matches("\\b[A-Z]+([A-Za-z]*[-']?[A-Za-z]+)+\\b")) {
             isFirstNameCorrect = true;
         } else {
             System.out.println("Incorrect first name.");
