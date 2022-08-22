@@ -74,11 +74,14 @@ public class Main {
         }
         return isFirstNameCorrect;
     }
-    //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes '
-    //  at least two characters long. Can contain one or more words without district.
+    /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
+    at least two characters long, hyphens and apostrophes - not at the first or the last character,
+    cannot be adjacent to each other.
+    Can contain one or more words without district.
+     */
     protected static boolean isLastNameCorrect(String lastName) {
         boolean isLastNameCorrect = false;
-        if (lastName.matches("[A-Z]['A-Za-z\\-\\s]*[a-z]")) {
+        if (lastName.matches("(\\b[A-Za-z]+([A-Za-z]*[-']?[A-Za-z]+)+\\b\\s?)+")) {
             isLastNameCorrect = true;
         } else {
             System.out.println("Incorrect last name.");

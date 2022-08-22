@@ -4,6 +4,7 @@ import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 
 import static org.junit.jupiter.api.Assertions.*;
+import static tracker.Main.*;
 
 class MainTest {
     @Test
@@ -91,8 +92,26 @@ class MainTest {
     void testFirstName11() {
         Main main = new Main();
         String name = "Neal'";
-        assertFalse(main.isFirstNameCorrect(name));
+        assertFalse(isFirstNameCorrect(name));
     }
+
+    @Test
+    @DisplayName("lastName Je Jean-Clause O'Neal")
+    void testLastName1() {
+        Main main = new Main();
+        String name = "Je Jean-Clause O'Neal";
+        assertTrue(isLastNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("lastName Robert Jemison Van de Graaff or John Ronald Reuel Tolkien")
+    void testLastName2() {
+        Main main = new Main();
+        String name = "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien";
+        assertTrue(isLastNameCorrect(name));
+    }
+
+
 
 
 
