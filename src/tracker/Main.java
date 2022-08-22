@@ -41,8 +41,9 @@ public class Main {
             if ("back".equals(input)) {
                 System.out.printf("Total %d students have been added.", addedNumberOfStudents);
             } else {
-                isCorrectCredentials(input);
-                addedNumberOfStudents++;
+                if (isCorrectCredentials(input)) {
+                    addedNumberOfStudents++;
+                }
             }
         } while (!"back".equals(input));
     }
@@ -50,25 +51,26 @@ public class Main {
     protected static boolean isCorrectCredentials(String credentials) {
 
         String[] credentialsOfStudent = credentials.split("\\s+");
+        if (credentialsOfStudent.length < 3) {
+            System.out.println("Incorrect credentials");
+        }
         String firstName = credentialsOfStudent[0];
         String email = credentialsOfStudent[credentialsOfStudent.length - 1];
-        String lastName = "";
+        StringBuilder lastName = new StringBuilder();
         for (int i = 1; i < credentialsOfStudent.length - 2; i++) {
-            lastName = lastName + credentialsOfStudent[i] + " ";
+            lastName.append(credentialsOfStudent[i]);
+            lastName.append(" ");
         }
+        lastName.deleteCharAt(lastName.lastIndexOf(lastName.toString()));
 
-        boolean correct = true;
-        if (isFirstNameCorrect(firstName)) {
-            System.out.println("Incorrect first name.");
-        }
-        return correct;
+        return isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
     }
 
     //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes
-    //  at least 2 symbols'.
+    //  at least two characters long.
     protected static boolean isFirstNameCorrect(String firstName) {
         boolean isFirstNameCorrect = false;
-        if (firstName.matches("[A-Z]['A-Za-z\\-]+")) {
+        if (firstName.matches("[A-Z]['A-Za-z\\-]?[a-z]")) {
             isFirstNameCorrect = true;
         } else {
             System.out.println("Incorrect first name.");
@@ -76,10 +78,10 @@ public class Main {
         return isFirstNameCorrect;
     }
     //  Accept only ASCII characters, from A to Z and from a to z as well as hyphens - and apostrophes '
-    //  at least 2 symbols. Can contain one or more words without district.
+    //  at least two characters long. Can contain one or more words without district.
     protected static boolean isLastNameCorrect(String lastName) {
         boolean isLastNameCorrect = false;
-        if (lastName.matches("[A-Z]['A-Za-z\\-\\s]+")) {
+        if (lastName.matches("[A-Z]['A-Za-z\\-\\s]*[a-z]")) {
             isLastNameCorrect = true;
         } else {
             System.out.println("Incorrect last name.");
