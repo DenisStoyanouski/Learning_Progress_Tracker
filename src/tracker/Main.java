@@ -54,6 +54,7 @@ public class Main {
         boolean isCorrectCredentials = false;
 
         String[] credentialsOfStudent = credentials.split("\\s+");
+
         if (credentialsOfStudent.length < 3) {
             System.out.println("Incorrect credentials");
         } else {
@@ -64,7 +65,7 @@ public class Main {
                 lastName.append(credentialsOfStudent[i]);
                 lastName.append(" ");
             }
-            lastName.deleteCharAt(lastName.lastIndexOf(lastName.toString()));
+            lastName.deleteCharAt(lastName.length() - 1);
             isCorrectCredentials = isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
         }
 

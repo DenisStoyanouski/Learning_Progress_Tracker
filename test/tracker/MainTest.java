@@ -100,6 +100,13 @@ class MainTest {
     }
 
     @Test
+    @DisplayName("lastName O'Connor")
+    void testLastName3() {
+        String name = "O'Connor";
+        assertTrue(isLastNameCorrect(name));
+    }
+
+    @Test
     @DisplayName("jdoe@mail.net")
     void testEmail1() {
         String email = "jdoe@mail.net";
@@ -139,6 +146,13 @@ class MainTest {
     void testCorrectCredentials3() {
         String credentials = "help";
         assertFalse(isCorrectCredentials(credentials));
+    }
+
+    @Test
+    @DisplayName("Jean-Claude O'Connor jcda123@google.net- correct")
+    void testCorrectCredentials4() {
+        String credentials = "Jean-Claude O'Connor jcda123@google.net";
+        assertTrue(isCorrectCredentials(credentials));
     }
 
 
