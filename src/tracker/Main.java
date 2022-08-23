@@ -7,41 +7,47 @@ public class Main {
     static int addedNumberOfStudents;
 
     public static void main(String[] args) {
+        startMenu();
+    }
+
+    private static void startMenu() {
         System.out.println("Learning Progress Tracker");
         String a;
         do {
-            a = input();
+            a = input().strip();
             if (a.isBlank()) {
                 System.out.println("No input");
+            } else if ("add students".equals(a)) {
+                addStudents();
+            } else if ("back".equals(a)){
+                System.out.println("Enter 'exit' to exit the program.");
             } else if (!"exit".equals(a)) {
                 System.out.println("Unknown command!");
-            } else if ("add students".equals(input())) {
-                addStudents();
             }
         } while(!"exit".equals(a));
         System.out.println("Bye!");
     }
 
     private static String input() {
-        try (Scanner sc = new Scanner(System.in)) {
-            return sc.nextLine().strip();
-        }
+        Scanner sc = new Scanner(System.in);
+        return sc.nextLine();
     }
 
     private static void addStudents() {
         addedNumberOfStudents = 0;
-        String input;
+        String command;
+        System.out.println("Enter student credentials or 'back' to return:");
         do {
-            System.out.println("Enter student credentials or 'back' to return:");
-            input = input();
-            if ("back".equals(input)) {
-                System.out.printf("Total %d students have been added.", addedNumberOfStudents);
+            command = input();
+            if ("back".equals(command)) {
+                System.out.printf("Total %d students have been added.%n", addedNumberOfStudents);
             } else {
-                if (isCorrectCredentials(input)) {
+                if (isCorrectCredentials(command)) {
+                    System.out.println("The student has been added.");
                     addedNumberOfStudents++;
                 }
             }
-        } while (!"back".equals(input));
+        } while (!"back".equals(command));
     }
 
     protected static boolean isCorrectCredentials(String credentials) {
@@ -99,7 +105,7 @@ public class Main {
     of any combination of alphabetic characters, digits and hyphens.*/
     protected static boolean isEmailCorrect(String email) {
         boolean isEmailCorrect = false;
-        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,192}[.][\\w-]{3,63}")) {
+        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,192}[.][\\w-]{2,63}")) {
             isEmailCorrect = true;
         } else {
             System.out.println("Incorrect email.");
