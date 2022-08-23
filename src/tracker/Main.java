@@ -77,7 +77,7 @@ public class Main {
     cannot be adjacent to each other.*/
     protected static boolean isFirstNameCorrect(String firstName) {
         boolean isFirstNameCorrect = false;
-        if (firstName.matches("\\b[A-Z]+([A-Za-z]*[-']?[A-Za-z]+)+\\b")) {
+        if (firstName.matches("\\b[A-Za-z]+([A-Za-z]*[-']?[A-Za-z]+)+\\b")) {
             isFirstNameCorrect = true;
         } else {
             System.out.println("Incorrect first name.");
