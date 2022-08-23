@@ -106,7 +106,7 @@ public class Main {
     of any combination of alphabetic characters, digits and hyphens.*/
     protected static boolean isEmailCorrect(String email) {
         boolean isEmailCorrect = false;
-        if (email.matches("\\p{ASCII}{2,63}@\\p{ASCII}{2,192}[.][\\w-]{2,63}")) {
+        if (email.matches("\\p{ASCII}{1,63}@\\p{ASCII}{1,192}[.][\\w-]{1,63}")) {
             isEmailCorrect = true;
         } else {
             System.out.println("Incorrect email.");
