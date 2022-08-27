@@ -1,10 +1,15 @@
 package tracker;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Scanner;
 
 public class Main {
 
     static int addedNumberOfStudents;
+
+    private static List<Student> studentList = new ArrayList<>();
+    private static List<String> emailDataBase = new ArrayList<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -45,6 +50,7 @@ public class Main {
                 if (isCorrectCredentials(command)) {
                     System.out.println("The student has been added.");
                     addedNumberOfStudents++;
+
                 }
             }
         } while (!"back".equals(command));
@@ -52,24 +58,41 @@ public class Main {
 
     protected static boolean isCorrectCredentials(String credentials) {
         boolean isCorrectCredentials = false;
+        String firstName = "";
+        String lastName = "";
+        String email = "";
 
         String[] credentialsOfStudent = credentials.split("\\s+");
 
         if (credentialsOfStudent.length < 3) {
             System.out.println("Incorrect credentials");
         } else {
-            String firstName = credentialsOfStudent[0];
-            String email = credentialsOfStudent[credentialsOfStudent.length - 1];
-            StringBuilder lastName = new StringBuilder();
+            firstName = credentialsOfStudent[0];
+            email = credentialsOfStudent[credentialsOfStudent.length - 1];
+            StringBuilder lastNameB = new StringBuilder();
             for (int i = 1; i <= credentialsOfStudent.length - 2; i++) {
-                lastName.append(credentialsOfStudent[i]);
-                lastName.append(" ");
+                lastNameB.append(credentialsOfStudent[i]);
+                lastNameB.append(" ");
             }
-            lastName.deleteCharAt(lastName.length() - 1);
-            isCorrectCredentials = isFirstNameCorrect(firstName) && isLastNameCorrect(lastName.toString()) && isEmailCorrect(email);
+            lastName = lastNameB.deleteCharAt(lastNameB.length() - 1).toString();
+            isCorrectCredentials = isFirstNameCorrect(firstName) && isLastNameCorrect(lastName) && isEmailCorrect(email);
+        }
+        if (isCorrectCredentials) {
+            addStudentToDataBase(firstName, lastName, email);
         }
 
         return isCorrectCredentials;
+    }
+
+    protected static void addStudentToDataBase(String firstName, String lastName, String email) {
+        Student student = new Student(firstName, lastName, email);
+        if (isEmailUnique(email)) {
+            studentList.add(student);
+            emailDataBase.add(email);
+        } else {
+            System.out.println("This email is already taken.");
+        }
+
     }
 
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
@@ -113,5 +136,27 @@ public class Main {
         }
         return isEmailCorrect;
     }
+
+    protected static boolean isEmailUnique(String email) {
+        return !emailDataBase.contains(email);
+    }
+
+}
+
+class Student{
+    String firstName;
+    String lastName;
+    String email;
+
+    public Student(String firstName, String lastName, String email) {
+        this.firstName = firstName;
+        this.lastName = lastName;
+        this.email = email;
+    }
+
+    public String getEmail() {
+        return email;
+    }
+
 
 }
