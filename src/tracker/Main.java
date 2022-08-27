@@ -1,15 +1,13 @@
 package tracker;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Scanner;
+import java.util.*;
 
 public class Main {
 
     static int addedNumberOfStudents;
 
     private static List<Student> studentList = new ArrayList<>();
-    private static List<String> emailDataBase = new ArrayList<>();
+    private static Set<String> emails = new HashSet<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -88,7 +86,7 @@ public class Main {
         Student student = new Student(firstName, lastName, email);
         if (isEmailUnique(email)) {
             studentList.add(student);
-            emailDataBase.add(email);
+            emails.add(email);
         } else {
             System.out.println("This email is already taken.");
         }
@@ -138,7 +136,7 @@ public class Main {
     }
 
     protected static boolean isEmailUnique(String email) {
-        return !emailDataBase.contains(email);
+        return !emails.contains(email);
     }
 
 }
