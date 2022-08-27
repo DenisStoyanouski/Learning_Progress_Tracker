@@ -6,7 +6,7 @@ public class Main {
 
     static int addedNumberOfStudents;
 
-    private static List<Student> studentList = new ArrayList<>();
+    private static Stack<Student> studentList = new Stack<>();
     private static Set<String> emails = new HashSet<>();
 
     public static void main(String[] args) {
@@ -76,16 +76,16 @@ public class Main {
             isCorrectCredentials = isFirstNameCorrect(firstName) && isLastNameCorrect(lastName) && isEmailCorrect(email);
         }
         if (isCorrectCredentials) {
-            addStudentToDataBase(firstName, lastName, email);
+            addStudentToList(firstName, lastName, email);
         }
 
         return isCorrectCredentials;
     }
 
-    protected static void addStudentToDataBase(String firstName, String lastName, String email) {
+    protected static void addStudentToList(String firstName, String lastName, String email) {
         Student student = new Student(firstName, lastName, email);
         if (isEmailUnique(email)) {
-            studentList.add(student);
+            studentList.push(student);
             emails.add(email);
         } else {
             System.out.println("This email is already taken.");
