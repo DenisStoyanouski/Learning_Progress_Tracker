@@ -6,7 +6,8 @@ public class Main {
 
     static int addedNumberOfStudents;
 
-    private static Stack<Student> studentList = new Stack<>();
+    private static Map<Integer, Student> studentList = new HashMap<>();
+    private static Deque<Integer> idList = new ArrayDeque<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -44,7 +45,7 @@ public class Main {
             if ("back".equals(command)) {
                 System.out.printf("Total %d students have been added.%n", addedNumberOfStudents);
             } else if ("list".equals(command)) {
-                invokeList();
+                printIdList();
             } else {
                 if (isCorrectCredentials(command)) {
                     System.out.println("The student has been added.");
@@ -85,17 +86,22 @@ public class Main {
 
     protected static void addStudentToList(String firstName, String lastName, String email) {
         Student student = new Student(firstName, lastName, email);
-        if (!studentList.contains(student)) {
-            studentList.push(student);
+        int id = 10000;
+        if (!studentList.containsValue(student)) {
+            while(!studentList.containsKey(id)) {
+                id++;
+            }
+            studentList.put(id, student);
+            idList.add(id);
         } else {
             System.out.println("This email is already taken.");
         }
-
     }
 
-    protected static void invokeList() {
-        while(!studentList.isEmpty()) {
-            studentList.pop();
+    protected static void printIdList() {
+        System.out.println("Students:");
+        while (!idList.isEmpty()) {
+            System.out.println(idList.pollLast());
         }
     }
 
