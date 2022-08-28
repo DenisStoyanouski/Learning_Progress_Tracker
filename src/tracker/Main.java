@@ -7,7 +7,6 @@ public class Main {
     static int addedNumberOfStudents;
 
     private static Stack<Student> studentList = new Stack<>();
-    private static Set<String> emails = new HashSet<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -44,6 +43,8 @@ public class Main {
             command = input();
             if ("back".equals(command)) {
                 System.out.printf("Total %d students have been added.%n", addedNumberOfStudents);
+            } else if ("list".equals(command)) {
+                invokeList();
             } else {
                 if (isCorrectCredentials(command)) {
                     System.out.println("The student has been added.");
@@ -84,13 +85,18 @@ public class Main {
 
     protected static void addStudentToList(String firstName, String lastName, String email) {
         Student student = new Student(firstName, lastName, email);
-        if (isEmailUnique(email)) {
+        if (!studentList.contains(student)) {
             studentList.push(student);
-            emails.add(email);
         } else {
             System.out.println("This email is already taken.");
         }
 
+    }
+
+    protected static void invokeList() {
+        while(!studentList.isEmpty()) {
+            studentList.pop();
+        }
     }
 
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
@@ -134,14 +140,9 @@ public class Main {
         }
         return isEmailCorrect;
     }
-
-    protected static boolean isEmailUnique(String email) {
-        return !emails.contains(email);
-    }
-
 }
 
-class Student{
+class Student implements Comparable<Student>{
     String firstName;
     String lastName;
     String email;
@@ -152,9 +153,9 @@ class Student{
         this.email = email;
     }
 
-    public String getEmail() {
-        return email;
+    //Check if the provided email has been already used when adding information about students.
+    @Override
+    public int compareTo(Student o) {
+        return this.email.compareTo(o.email);
     }
-
-
 }
