@@ -3,6 +3,7 @@ package tracker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.NullAndEmptySource;
 import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
@@ -19,52 +20,34 @@ class MainTest {
 
     @ParameterizedTest
     @DisplayName("firstName negative tests")
-    @ValueSource(strings = {"J","陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal", "Neal'", "F1edor", "F!edor"})
+    @ValueSource(strings = {"J","陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal", "Neal'", "Ne'-al", "F1edor", "F!edor"})
     void testFirstNameNegative(String name) {
         assertFalse(isFirstNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("lastName Je Jean-Clause O'Neal")
-    void testLastName1() {
-        String name = "Je Jean-Clause O'Neal";
+
+    @ParameterizedTest
+    @DisplayName("lastName positive tests")
+    @ValueSource(strings = {"Je Jean-Clause O'Neal", "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien", "O'Connor" })
+    void testLastNamePositive(String name) {
         assertTrue(isLastNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("lastName Robert Jemison Van de Graaff or John Ronald Reuel Tolkien")
-    void testLastName2() {
-        String name = "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien";
-        assertTrue(isLastNameCorrect(name));
-    }
 
-    @Test
-    @DisplayName("lastName O'Connor")
-    void testLastName3() {
-        String name = "O'Connor";
-        assertTrue(isLastNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("jdoe@mail.net")
-    void testEmail1() {
-        String email = "jdoe@mail.net";
+    @ParameterizedTest
+    @DisplayName("email positive tests")
+    @ValueSource(strings = {"jdoe@mail.net", "jane.doe@yahoo.com", "j@d.c"})
+    void testEmailPositive(String email) {
         assertTrue(isEmailCorrect(email));
     }
 
-    @Test
-    @DisplayName("jane.doe@yahoo.com")
-    void testEmail2() {
-        String email = "jane.doe@yahoo.com";
-        assertTrue(isEmailCorrect(email));
-    }
-
-    @Test
-    @DisplayName("email")
-    void testEmail3() {
-        String email = "email";
+    @ParameterizedTest
+    @DisplayName("email positive tests")
+    @ValueSource(strings = {"email", "jane.doe@yahoocom", "j@@d.c"})
+    void testEmailNegative(String email) {
         assertFalse(isEmailCorrect(email));
     }
+
 
     @Test
     @DisplayName("John Doe jdoe@mail.net - correct")
