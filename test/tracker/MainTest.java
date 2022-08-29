@@ -10,69 +10,17 @@ import static tracker.Main.*;
 
 class MainTest {
     @ParameterizedTest
-    @DisplayName("firstName Jean-Clause")
+    @DisplayName("firstName positive tests")
     @ValueSource(strings = {"Jean-Clause","Je", "O'Neal", "Teddy-Bear", "Verylondnamewith-hyphensand'apostoroth"})
     void testFirstNamePositive(String name) {
         assertTrue(isFirstNameCorrect(name));
     }
 
 
-    @Test
-    @DisplayName("firstName J")
-    void testFirstName3() {
-
-        String name = "J";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName 陳")
-    void testFirstName4() {
-        String name = "陳";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-
-
-    @Test
-    @DisplayName("firstName O''Neal with double apostrophes")
-    void testFirstName6() {
-        String name = "O''Neal";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName Jean--Clause with double hyphens")
-    void testFirstName7() {
-        String name = "O''Neal";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName -Jean hyphen isn't at first place")
-    void testFirstName8() {
-        String name = "-Jean";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName Jean- hyphen isn't at last place")
-    void testFirstName9() {
-        String name = "Jean-";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName 'Neal apostrophes isn't at first place")
-    void testFirstName10() {
-        String name = "'Neal";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName Neal' apostrophes isn't at last place")
-    void testFirstName11() {
-        String name = "Neal'";
+    @ParameterizedTest
+    @DisplayName("firstName negative tests")
+    @ValueSource(strings = {"J","陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal", "Neal'", "F1edor", "F!edor"})
+    void testFirstNameNegative(String name) {
         assertFalse(isFirstNameCorrect(name));
     }
 
