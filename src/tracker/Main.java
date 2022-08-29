@@ -149,6 +149,8 @@ public class Main {
         int checkId = Integer.parseInt(id);
         if (studentList.containsKey(checkId)) {
             isIdExist = true;
+        } else {
+            System.out.printf("No student is found for id=%d.%n", checkId);
         }
         return isIdExist;
     }
