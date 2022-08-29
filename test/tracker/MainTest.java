@@ -19,57 +19,31 @@ class MainTest {
 
     @ParameterizedTest
     @DisplayName("firstName is incorrect")
-    @ValueSource(strings = {"J", "陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal" })
+    @ValueSource(strings = {"J", "陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal", "Neal'" })
     void testFirstNameFalse(String name) {
         assertFalse(isFirstNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("firstName Neal' apostrophes isn't at last place")
-    void testFirstName11() {
-        String name = "Neal'";
-        assertFalse(isFirstNameCorrect(name));
-    }
 
-    @Test
-    @DisplayName("lastName Je Jean-Clause O'Neal")
-    void testLastName1() {
-        String name = "Je Jean-Clause O'Neal";
+    @ParameterizedTest
+    @DisplayName("lastName is correct")
+    @ValueSource(strings = {"Je Jean-Clause O'Neal", "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien", "O'Connor"})
+    void testLastNameTrue(String name) {
         assertTrue(isLastNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("lastName Robert Jemison Van de Graaff or John Ronald Reuel Tolkien")
-    void testLastName2() {
-        String name = "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien";
-        assertTrue(isLastNameCorrect(name));
-    }
 
-    @Test
-    @DisplayName("lastName O'Connor")
-    void testLastName3() {
-        String name = "O'Connor";
-        assertTrue(isLastNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("jdoe@mail.net")
-    void testEmail1() {
-        String email = "jdoe@mail.net";
+    @ParameterizedTest
+    @DisplayName("email is correct")
+    @ValueSource(strings = {"jdoe@mail.net", "jane.doe@yahoo.com", "jjlajldjglq145466@thoooo.dom.dom"})
+    void testEmailTrue(String email) {
         assertTrue(isEmailCorrect(email));
     }
 
-    @Test
-    @DisplayName("jane.doe@yahoo.com")
-    void testEmail2() {
-        String email = "jane.doe@yahoo.com";
-        assertTrue(isEmailCorrect(email));
-    }
-
-    @Test
-    @DisplayName("email")
-    void testEmail3() {
-        String email = "email";
+    @ParameterizedTest
+    @DisplayName("email is incorrect")
+    @ValueSource(strings = {"email", "email@dot", "em@ail@grab.net", "@mail.com"})
+    void testEmailFalse(String email) {
         assertFalse(isEmailCorrect(email));
     }
 
