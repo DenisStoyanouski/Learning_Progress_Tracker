@@ -75,6 +75,46 @@ class MainTest {
         assertTrue(isCorrectCredentials(credentials));
     }
 
+    @Test
+    @DisplayName("Amounts of points is more than 5")
+    void testIsPointsFormatCorrect() {
+        String[] points = {"10000", "7", "7", "7", "7", "7"};
+        assertFalse(isPointsFormatCorrect(points));
+    }
+
+    @Test
+    @DisplayName("Amounts of points is less than 5")
+    void testIsPointsFormatCorrect1() {
+        String[] points = {"10000", "7", "7", "7"};
+        assertFalse(isPointsFormatCorrect(points));
+    }
+
+    @Test
+    @DisplayName("array is null")
+    void testIsPointsFormatCorrect2() {
+        assertFalse(isPointsFormatCorrect(null));
+    }
+
+    @Test
+    @DisplayName("First point is less then 0 ")
+    void testIsPointsFormatCorrect3() {
+        String[] points = {"10000", "-1", "7", "7", "7"};
+        assertFalse(isPointsFormatCorrect(points));
+    }
+
+    @Test
+    @DisplayName("First point is more then 10 ")
+    void testIsPointsFormatCorrect4() {
+        String[] points = {"10000", "11", "7", "7", "7"};
+        assertFalse(isPointsFormatCorrect(points));
+    }
+
+    @Test
+    @DisplayName("First point is not a number")
+    void testIsPointsFormatCorrect5() {
+        String[] points = {"10000", "?", "7", "7", "7"};
+        assertFalse(isPointsFormatCorrect(points));
+    }
 
 
 

@@ -60,8 +60,7 @@ public class Main {
     }
 
     protected static String[] getCredentials(String credentials) {
-        String[] credentialsOfStudent = credentials.split("\\s+");
-       return credentialsOfStudent;
+       return credentials.split("\\s+");
     }
 
     protected static boolean isCorrectCredentials(String[] credentialsOfStudent) {
@@ -118,7 +117,6 @@ public class Main {
 
                 }
             }
-
         } while (!"back".equals(points[0]));
 
     }
@@ -128,16 +126,22 @@ public class Main {
     }
     protected static boolean isPointsFormatCorrect(String[] points) {
         boolean isCorrect = false;
-        for (int i = 1; i < points.length; i++) {
-            try {
-                int point = Integer.parseInt(points[i]);
-                if (point < 0) {
+        if (points == null || points.length != 5) {
+            System.out.println("Incorrect points format.");
+        } else {
+            for (int i = 1; i < points.length; i++) {
+                try {
+                    int point = Integer.parseInt(points[i]);
+                    if (point <= 0 || point > 10) {
+                        System.out.println("Incorrect points format.");
+                        break;
+                    } else {
+                        isCorrect = true;
+                    }
+                } catch (NumberFormatException e) {
                     System.out.println("Incorrect points format.");
-                } else {
-                    isCorrect = true;
+                    break;
                 }
-            } catch (NumberFormatException e) {
-                System.out.println("Incorrect points format.");
             }
         }
         return isCorrect;
@@ -160,7 +164,9 @@ public class Main {
         String line;
         do {
             line = input();
-            if ("add".equals(line)) {}
+            if ("add points".equals(line)) {
+                addPoints();
+            }
         } while (!"back".equals(line));
 
     }
