@@ -3,10 +3,15 @@ package tracker;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.NullAndEmptySource;
+import org.junit.jupiter.params.provider.Arguments;
+import org.junit.jupiter.params.provider.MethodSource;
 import org.junit.jupiter.params.provider.ValueSource;
 
-import static org.junit.jupiter.api.Assertions.*;
+import java.util.stream.Stream;
+
+import static org.junit.jupiter.api.Assertions.assertFalse;
+import static org.junit.jupiter.api.Assertions.assertTrue;
+import static org.junit.jupiter.params.provider.Arguments.arguments;
 import static tracker.Main.*;
 
 class MainTest {
@@ -49,34 +54,33 @@ class MainTest {
     }
 
 
-    @Test
-    @DisplayName("John Doe jdoe@mail.net - correct")
-    void testCorrectCredentials1() {
-        String[] credentials = {"John", "Doe", "jdoe@mail.net"};
+    @ParameterizedTest
+    @MethodSource("credentialProviderPositive")
+    void testCredentialsPositive(String[] credentials) {
         assertTrue(isCorrectCredentials(credentials));
+
+    }
+    static Stream<Arguments> credentialProviderPositive() {
+        return Stream.of(
+                arguments((Object) new String[]{"John", "Doe", "jdoe@mail.net"}),
+                arguments((Object) new String[]{"Jane", "Doe","jane.doe@yahoo.com"}),
+                arguments((Object) new String[]{"Jean-Claude", "O'Connor", "jcda123@google.net"})
+        );
     }
 
-    @Test
-    @DisplayName("Jane Doe jane.doe@yahoo.com - correct")
-    void testCorrectCredentials2() {
-        String[] credentials = {"Jane", "Doe","jane.doe@yahoo.com"};
-        assertTrue(isCorrectCredentials(credentials));
-    }
-
-    @Test
-    @DisplayName(" help - incorrect")
-    void testCorrectCredentials3() {
-        String[] credentials = {"help"};
+    @ParameterizedTest
+    @MethodSource("credentialProviderNegative")
+    void testCredentialsNegative(String[] credentials) {
         assertFalse(isCorrectCredentials(credentials));
-    }
 
-    @Test
-    @DisplayName("Jean-Claude O'Connor jcda123@google.net- correct")
-    void testCorrectCredentials4() {
-        String[] credentials = {"Jean-Claude", "O'Connor", "jcda123@google.net"};
-        assertTrue(isCorrectCredentials(credentials));
     }
-
+    static Stream<Arguments> credentialProviderNegative() {
+        return Stream.of(
+                arguments((Object) new String[]{"help"}),
+                arguments((Object) new String[]{"Jane", "Doe"}),
+                arguments((Object) new String[]{})
+        );
+    }
 
 
 
