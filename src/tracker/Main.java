@@ -128,11 +128,13 @@ public class Main {
     }
     protected static boolean isPointsFormatCorrect(String[] points) {
         boolean isCorrect = false;
-        for(int i = 1; i < points.length; i++) {
+        for (int i = 1; i < points.length; i++) {
             try {
                 int point = Integer.parseInt(points[i]);
                 if (point < 0) {
                     System.out.println("Incorrect points format.");
+                } else {
+                    isCorrect = true;
                 }
             } catch (NumberFormatException e) {
                 System.out.println("Incorrect points format.");
