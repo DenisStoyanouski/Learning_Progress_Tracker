@@ -2,79 +2,25 @@ package tracker;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static tracker.Main.*;
 
 class MainTest {
-    @Test
-    @DisplayName("firstName Jean-Clause")
-    void testFirstName1() {
-        String name = "Jean-Clause";
+
+    @ParameterizedTest
+    @DisplayName("firstName is correct")
+    @ValueSource(strings = {"Jean-Clause", "Je", "O'Neal"})
+    void testFirstNameTrue(String name) {
         assertTrue(isFirstNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("firstName Je")
-    void testFirstName2() {
-        String name = "Je";
-        assertTrue(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName J")
-    void testFirstName3() {
-
-        String name = "J";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName 陳")
-    void testFirstName4() {
-        String name = "陳";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName O'Neal")
-    void testFirstName5() {
-        String name = "O'Neal";
-        assertTrue(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName O''Neal with double apostrophes")
-    void testFirstName6() {
-        String name = "O''Neal";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName Jean--Clause with double hyphens")
-    void testFirstName7() {
-        String name = "O''Neal";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName -Jean hyphen isn't at first place")
-    void testFirstName8() {
-        String name = "-Jean";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName Jean- hyphen isn't at last place")
-    void testFirstName9() {
-        String name = "Jean-";
-        assertFalse(isFirstNameCorrect(name));
-    }
-
-    @Test
-    @DisplayName("firstName 'Neal apostrophes isn't at first place")
-    void testFirstName10() {
-        String name = "'Neal";
+    @ParameterizedTest
+    @DisplayName("firstName is incorrect")
+    @ValueSource(strings = {"J", "陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal" })
+    void testFirstNameFalse(String name) {
         assertFalse(isFirstNameCorrect(name));
     }
 
