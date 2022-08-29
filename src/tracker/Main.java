@@ -163,7 +163,7 @@ public class Main {
                 System.out.printf("No student is found for id=%d.%n", checkId);
             }
         } catch (NumberFormatException e) {
-            System.out.println("Incorrect points format.");
+            System.out.printf("No student is found for id=%s.%n", id);
         }
 
         return isIdExist;
@@ -202,7 +202,7 @@ public class Main {
     }
 
     protected static void printPoints(int id) {
-        System.out.printf("%d points: Java=%d; DSA=%d; Database=%d; Spring=%d%n",
+        System.out.printf("%d points: Java=%d; DSA=%d; Databases=%d; Spring=%d%n",
                 id,
                 studentList.get(id).getPointJava(),
                 studentList.get(id).getPointDSA(),
