@@ -99,9 +99,13 @@ public class Main {
     }
 
     protected static void printIdList() {
-        System.out.println("Students:");
-        while (!idList.isEmpty()) {
-            System.out.println(idList.pollFirst());
+        if (idList.isEmpty()) {
+            System.out.println("No students found.");
+        } else {
+            System.out.println("Students:");
+            while (!idList.isEmpty()) {
+                System.out.println(idList.pollFirst());
+            }
         }
     }
 
@@ -140,6 +144,7 @@ public class Main {
                     }
                 } catch (NumberFormatException e) {
                     System.out.println("Incorrect points format.");
+                    isCorrect = false;
                     break;
                 }
             }
@@ -150,26 +155,31 @@ public class Main {
 
     protected static boolean isIdExist(String id) {
         boolean isIdExist = false;
-        int checkId = Integer.parseInt(id);
-        if (studentList.containsKey(checkId)) {
-            isIdExist = true;
-        } else {
-            System.out.printf("No student is found for id=%d.%n", checkId);
+        try {
+            int checkId = Integer.parseInt(id);
+            if (studentList.containsKey(checkId)) {
+                isIdExist = true;
+            } else {
+                System.out.printf("No student is found for id=%d.%n", checkId);
+            }
+        } catch (NumberFormatException e) {
+            System.out.println("Incorrect points format.");
         }
+
         return isIdExist;
     }
 
     protected static void updatePoints(String[] points) {
         int id = Integer.parseInt(points[0]);
-        studentList.get(id).setPointJava(Integer.parseInt(points[1]));
-        studentList.get(id).setPointDSA(Integer.parseInt(points[2]));
-        studentList.get(id).setPointDB(Integer.parseInt(points[3]));
-        studentList.get(id).setPointSpring(Integer.parseInt(points[4]));
+        studentList.get(id).addPointJava(Integer.parseInt(points[1]));
+        studentList.get(id).addPointDSA(Integer.parseInt(points[2]));
+        studentList.get(id).addPointDB(Integer.parseInt(points[3]));
+        studentList.get(id).addPointSpring(Integer.parseInt(points[4]));
         System.out.println("Points updated.");
     }
 
     protected static void findStudent() {
-        System.out.println("Enter an id and points or 'back' to return:");
+        System.out.println("Enter an id or 'back' to return:");
         String line;
         do {
             line = input();
@@ -185,7 +195,6 @@ public class Main {
                     }
                 } catch (NumberFormatException e) {
                     System.out.printf("No student is found for id=%s.%n", line);
-                    break;
                 }
             }
         } while (!"back".equals(line));
@@ -193,7 +202,7 @@ public class Main {
     }
 
     protected static void printPoints(int id) {
-        System.out.printf("%d points: Java=%d; DSA=%d; Database=%d; Spring=%d",
+        System.out.printf("%d points: Java=%d; DSA=%d; Database=%d; Spring=%d%n",
                 id,
                 studentList.get(id).getPointJava(),
                 studentList.get(id).getPointDSA(),
@@ -295,6 +304,22 @@ class Student {
 
     public void setPointSpring(int pointSpring) {
         this.pointSpring = pointSpring;
+    }
+
+    public void addPointJava(int point) {
+        pointJava += point;
+    }
+
+    public void addPointDB(int point) {
+        pointDB += point;
+    }
+
+    public void addPointDSA(int point) {
+        pointDSA += point;
+    }
+
+    public void addPointSpring(int point) {
+        pointSpring += point;
     }
 
     //Check if the provided email has been already used when adding information about students.
