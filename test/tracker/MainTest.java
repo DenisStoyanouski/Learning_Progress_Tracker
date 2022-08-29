@@ -1,7 +1,6 @@
 package tracker;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.api.Test;
 import org.junit.jupiter.params.ParameterizedTest;
 import org.junit.jupiter.params.provider.Arguments;
 import org.junit.jupiter.params.provider.MethodSource;
@@ -79,6 +78,34 @@ class MainTest {
                 arguments((Object) new String[]{"help"}),
                 arguments((Object) new String[]{"Jane", "Doe"}),
                 arguments((Object) new String[]{})
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("pointsProviderPositive")
+    void testPointsPositive(String[] points) {
+        assertTrue(isPointsFormatCorrect(points));
+
+    }
+    static Stream<Arguments> pointsProviderPositive() {
+        return Stream.of(
+                arguments((Object) new String[]{"10000", "5", "5", "5", "5"}),
+                arguments((Object) new String[]{"10000", "0", "0", "0", "0"}),
+                arguments((Object) new String[]{"10000", "10", "10", "10", "10"})
+        );
+    }
+
+    @ParameterizedTest
+    @MethodSource("pointsProviderNegative")
+    void testPointsNegative(String[] points) {
+        assertFalse(isPointsFormatCorrect(points));
+
+    }
+    static Stream<Arguments> pointsProviderNegative() {
+        return Stream.of(
+                arguments((Object) new String[]{"10000", "7", "7", "7", "7", "7"}),
+                arguments((Object) new String[]{"10000", "-1", "2", "2", "2"}),
+                arguments((Object) new String[]{"10000", "?", "1", "1", "1"})
         );
     }
 

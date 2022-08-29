@@ -136,7 +136,7 @@ public class Main {
             for (int i = 1; i < points.length; i++) {
                 try {
                     int point = Integer.parseInt(points[i]);
-                    if (point <= 0 || point > 10) {
+                    if (point < 0 || point > 10) {
                         System.out.println("Incorrect points format.");
                         break;
                     } else {
