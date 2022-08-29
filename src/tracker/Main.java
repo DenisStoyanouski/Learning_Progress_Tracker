@@ -114,7 +114,9 @@ public class Main {
             if ("back".equals(points[0])) {
                 break;
             } else {
-                checkPoints(points);
+                if(checkPoints(points)) {
+
+                }
             }
 
         } while (!"back".equals(points[0]));
@@ -122,11 +124,7 @@ public class Main {
     }
 
     protected static boolean checkPoints(String[] points) {
-        boolean isCorrect = false;
-        if (isPointsFormatCorrect(points) && isIdExist(points[0])) {
-
-        }
-        return isCorrect;
+        return isPointsFormatCorrect(points) && isIdExist(points[0]);
     }
     protected static boolean isPointsFormatCorrect(String[] points) {
         boolean isCorrect = false;
@@ -140,9 +138,6 @@ public class Main {
                 System.out.println("Incorrect points format.");
             }
         }
-
-
-
         return isCorrect;
     }
 
