@@ -114,7 +114,7 @@ public class Main {
                 break;
             } else {
                 if(checkPoints(points)) {
-
+                    updatePoints(points);
                 }
             }
         } while (!"back".equals(points[0]));
@@ -157,6 +157,15 @@ public class Main {
             System.out.printf("No student is found for id=%d.%n", checkId);
         }
         return isIdExist;
+    }
+
+    protected static void updatePoints(String[] points) {
+        int id = Integer.parseInt(points[0]);
+        studentList.get(id).setPointJava(Integer.parseInt(points[1]));
+        studentList.get(id).setPointDSA(Integer.parseInt(points[2]));
+        studentList.get(id).setPointDB(Integer.parseInt(points[3]));
+        studentList.get(id).setPointSpring(Integer.parseInt(points[4]));
+        System.out.println("Points updated.");
     }
 
     protected static void findStudent() {
@@ -219,10 +228,52 @@ class Student {
     String lastName;
     String email;
 
+    int pointJava;
+
+    int pointDSA;
+
+    int pointDB;
+
+    int pointSpring;
+
+
+
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
         this.lastName = lastName;
         this.email = email;
+    }
+
+    public int getPointDB() {
+        return pointDB;
+    }
+
+    public void setPointDB(int pointDB) {
+        this.pointDB = pointDB;
+    }
+
+    public int getPointDSA() {
+        return pointDSA;
+    }
+
+    public void setPointDSA(int pointDSA) {
+        this.pointDSA = pointDSA;
+    }
+
+    public int getPointJava() {
+        return pointJava;
+    }
+
+    public void setPointJava(int pointJava) {
+        this.pointJava = pointJava;
+    }
+
+    public int getPointSpring() {
+        return pointSpring;
+    }
+
+    public void setPointSpring(int pointSpring) {
+        this.pointSpring = pointSpring;
     }
 
     //Check if the provided email has been already used when adding information about students.
