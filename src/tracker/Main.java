@@ -173,11 +173,32 @@ public class Main {
         String line;
         do {
             line = input();
-            if ("add points".equals(line)) {
-                addPoints();
+            if ("back".equals(line)) {
+                break;
+            } else {
+                try {
+                    int id = Integer.parseInt(line);
+                    if (!studentList.containsKey(id)) {
+                        System.out.printf("No student is found for id=%d.%n", id);
+                    } else {
+                        printPoints(id);
+                    }
+                } catch (NumberFormatException e) {
+                    System.out.printf("No student is found for id=%s.%n", line);
+                    break;
+                }
             }
         } while (!"back".equals(line));
 
+    }
+
+    protected static void printPoints(int id) {
+        System.out.printf("%d points: Java=%d; DSA=%d; Database=%d; Spring=%d",
+                id,
+                studentList.get(id).getPointJava(),
+                studentList.get(id).getPointDSA(),
+                studentList.get(id).getPointDB(),
+                studentList.get(id).getPointSpring());
     }
 
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
