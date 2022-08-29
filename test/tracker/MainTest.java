@@ -2,24 +2,20 @@ package tracker;
 
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.params.ParameterizedTest;
+import org.junit.jupiter.params.provider.ValueSource;
 
 import static org.junit.jupiter.api.Assertions.*;
 import static tracker.Main.*;
 
 class MainTest {
-    @Test
+    @ParameterizedTest
     @DisplayName("firstName Jean-Clause")
-    void testFirstName1() {
-        String name = "Jean-Clause";
+    @ValueSource(strings = {"Jean-Clause","Je", "O'Neal", "Teddy-Bear", "Verylondnamewith-hyphensand'apostoroth"})
+    void testFirstNamePositive(String name) {
         assertTrue(isFirstNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("firstName Je")
-    void testFirstName2() {
-        String name = "Je";
-        assertTrue(isFirstNameCorrect(name));
-    }
 
     @Test
     @DisplayName("firstName J")
@@ -36,12 +32,7 @@ class MainTest {
         assertFalse(isFirstNameCorrect(name));
     }
 
-    @Test
-    @DisplayName("firstName O'Neal")
-    void testFirstName5() {
-        String name = "O'Neal";
-        assertTrue(isFirstNameCorrect(name));
-    }
+
 
     @Test
     @DisplayName("firstName O''Neal with double apostrophes")
