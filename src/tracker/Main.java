@@ -7,12 +7,12 @@ public class Main {
     static String firstName;
     static String email;
 
-    private static Map<Integer, Student> studentList = new HashMap<>();
+    private static SortedMap<Integer, Student> studentList = new TreeMap<>();
     private static Deque<Integer> idList = new ArrayDeque<>();
 
     private static List<String> typeOfCourses = List.of("Java", "DSA", "Databases", "Spring");
 
-    private static Map<String, Course> Courses = new HashMap<>();
+    private static List<Course> Courses = new ArrayList<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -26,6 +26,7 @@ public class Main {
             if (a.isBlank()) {
                 System.out.println("No input");
             } else if ("add students".equals(a)) {
+                createListOfCourses();
                 addStudents();
             } else if ("statistics".equals(a)) {
                 printStatistics();
@@ -44,16 +45,22 @@ public class Main {
         System.out.println("Bye!");
     }
 
+    private static void createListOfCourses() {
+        for (String course : typeOfCourses) {
+            Courses.add(new Course(course));
+        }
+    }
+
     private static void printStatistics() {
         System.out.println("Type the name of a course to see details or 'back' to quit:");
-        System.out.printf("Most popular: %s%n", isMostPopularCourse());
+        System.out.printf("Most popular: %s%n", isMostPopular());
         System.out.printf("Least popular: %s%n", isLeastPopular());
         System.out.printf("Highest activity: %s%n", hasHighestActivity());
         System.out.printf("Lowest activity: %s%n", hasLowestActivity());
-        System.out.printf("Easiest course: %s%n", isEasieastCourse());
+        System.out.printf("Easiest course: %s%n", isEasiestCourse());
         System.out.printf("Hardest course: %s%n", isHardestCourse());
         String command;
-        do {
+        /*do {
             command = input();
             switch (command) {
                 case "java":
@@ -73,14 +80,58 @@ public class Main {
                 default:
                     System.out.println("Unknown course.");
             }
-        } while (!"back".equals(command));
+        } while (!"back".equals(command));*/
     }
 
-    private static void createListOfCourses() {
-        for (String course : typeOfCourses) {
-            Courses.put(course, new Course(course));
+    private static String isMostPopular() {
+        Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
         }
+        return Courses.get(Courses.size() - 1).name;
     }
+
+    private static String isLeastPopular() {
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
+        }
+        Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
+        return Courses.get(0).name;
+    }
+
+    private static String hasHighestActivity() {
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
+        }
+        Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
+        return Courses.get(Courses.size() - 1).name;
+    }
+
+    private static String hasLowestActivity() {
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
+        }
+        Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
+        return Courses.get(0).name;
+    }
+
+    private static String isEasiestCourse() {
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
+        }
+        Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
+        return Courses.get(Courses.size() - 1).name;
+    }
+
+    private static String isHardestCourse() {
+        if (Courses == null || Courses.size() == 0) {
+            return "n/a";
+        }
+        Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
+        return Courses.get(0).name;
+    }
+
+
 
 
     private static String input() {
@@ -217,29 +268,29 @@ public class Main {
         int id = Integer.parseInt(points[0]);
         if (Integer.parseInt(points[1]) != 0) {
             studentList.get(id).addPointJava(Integer.parseInt(points[1]));
-            Courses.get("Java").addNumberOfEnrolledStudents();
-            Courses.get("Java").addNumberOfCompletedTasks();
-            Courses.get("Java").addNumberOfPoints(Integer.parseInt(points[1]));
+            Courses.get(0).addNumberOfEnrolledStudents();
+            Courses.get(0).addNumberOfCompletedTasks();
+            Courses.get(0).addNumberOfPoints(Integer.parseInt(points[1]));
         }
         if (Integer.parseInt(points[2]) != 0) {
             studentList.get(id).addPointDSA(Integer.parseInt(points[2]));
-            Courses.get("DSA").addNumberOfEnrolledStudents();
-            Courses.get("DSA").addNumberOfCompletedTasks();
-            Courses.get("DSA").addNumberOfPoints(Integer.parseInt(points[2]));
+            Courses.get(1).addNumberOfEnrolledStudents();
+            Courses.get(1).addNumberOfCompletedTasks();
+            Courses.get(1).addNumberOfPoints(Integer.parseInt(points[2]));
         }
 
         if (Integer.parseInt(points[3]) != 0) {
             studentList.get(id).addPointDB(Integer.parseInt(points[3]));
-            Courses.get("Databases").addNumberOfEnrolledStudents();
-            Courses.get("Databases").addNumberOfCompletedTasks();
-            Courses.get("Databases").addNumberOfPoints(Integer.parseInt(points[3]));
+            Courses.get(2).addNumberOfEnrolledStudents();
+            Courses.get(2).addNumberOfCompletedTasks();
+            Courses.get(2).addNumberOfPoints(Integer.parseInt(points[3]));
         }
 
         if (Integer.parseInt(points[4]) != 0) {
             studentList.get(id).addPointSpring(Integer.parseInt(points[4]));
-            Courses.get("Spring").addNumberOfEnrolledStudents();
-            Courses.get("Spring").addNumberOfCompletedTasks();
-            Courses.get("Spring").addNumberOfPoints(Integer.parseInt(points[4]));
+            Courses.get(3).addNumberOfEnrolledStudents();
+            Courses.get(3).addNumberOfCompletedTasks();
+            Courses.get(3).addNumberOfPoints(Integer.parseInt(points[4]));
         }
 
         System.out.println("Points updated.");
@@ -434,13 +485,14 @@ class Course {
     int numberOfCompletedTasks;
 
     int numberOfPoints;
-    int averageGradePerAssignment = numberOfPoints / numberOfCompletedTasks;
+
+    int averageGradePerAssignment;
 
     public Course(String name) {
         this.name = name;
     }
 
-    public int getNumberOfEnrolledStudents() {
+    public Integer getNumberOfEnrolledStudents() {
         return numberOfEnrolledStudents;
     }
 
@@ -449,7 +501,7 @@ class Course {
     }
 
     public int getAverageGradePerAssignment() {
-        return averageGradePerAssignment;
+        return numberOfCompletedTasks != 0 ? numberOfPoints / numberOfCompletedTasks : 0;
     }
 
     public void addNumberOfEnrolledStudents() {
