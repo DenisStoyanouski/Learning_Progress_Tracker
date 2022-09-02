@@ -1,5 +1,6 @@
 package tracker;
 
+import javax.sound.midi.Soundbank;
 import java.util.*;
 
 public class Main {
@@ -24,6 +25,8 @@ public class Main {
                 System.out.println("No input");
             } else if ("add students".equals(a)) {
                 addStudents();
+            } else if ("statistics".equals(a)) {
+                printStatistics();
             } else if ("back".equals(a)){
                 System.out.println("Enter 'exit' to exit the program.");
             } else if ("list".equals(a)) {
@@ -37,6 +40,46 @@ public class Main {
             }
         } while(!"exit".equals(a));
         System.out.println("Bye!");
+    }
+
+    private static void printStatistics() {
+        System.out.println("Type the name of a course to see details or 'back' to quit:");
+        System.out.printf("Most popular: %s%n", isMostPopular());
+        System.out.printf("Least popular: %s%n", isLeastPopular());
+        System.out.printf("Highest activity: %s%n", hasHighestActivity());
+        System.out.printf("Lowest activity: %s%n", hasLowestActivity());
+        System.out.printf("Easiest course: %s%n", isEasieastCourse());
+        System.out.printf("Hardest course: %s%n", isHardestCourse());
+        String command;
+        do {
+            command = input();
+            switch (command) {
+                case "java":
+                    printJavaCourseStat();
+                    break;
+                case "dsa":
+                    printDSACourseStat();
+                    break;
+                case "databases":
+                    printDatabasesCourseStat();
+                    break;
+                case "spring":
+                    printSprintCousreStat();
+                    break;
+                case "back":
+                    break;
+                default:
+                    System.out.println("Unknown course.");
+            }
+        } while (!"back".equals(command));
+    }
+
+    private static String isMostPopular() {
+        return;
+    }
+
+    private static String isLeastPopular() {
+        return;
     }
 
     private static String input() {

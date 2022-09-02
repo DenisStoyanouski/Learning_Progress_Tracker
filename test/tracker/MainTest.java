@@ -1,113 +1,160 @@
 package tracker;
 
 import org.junit.jupiter.api.DisplayName;
-import org.junit.jupiter.params.ParameterizedTest;
-import org.junit.jupiter.params.provider.Arguments;
-import org.junit.jupiter.params.provider.MethodSource;
-import org.junit.jupiter.params.provider.ValueSource;
+import org.junit.jupiter.api.Test;
 
-import java.util.stream.Stream;
-
-import static org.junit.jupiter.api.Assertions.assertFalse;
-import static org.junit.jupiter.api.Assertions.assertTrue;
-import static org.junit.jupiter.params.provider.Arguments.arguments;
+import static org.junit.jupiter.api.Assertions.*;
 import static tracker.Main.*;
 
 class MainTest {
-    @ParameterizedTest
-    @DisplayName("firstName positive tests")
-    @ValueSource(strings = {"Jean-Clause","Je", "O'Neal", "Teddy-Bear", "Verylondnamewith-hyphensand'apostoroth"})
-    void testFirstNamePositive(String name) {
+    @Test
+    @DisplayName("firstName Jean-Clause")
+    void testFirstName1() {
+        String name = "Jean-Clause";
         assertTrue(isFirstNameCorrect(name));
     }
 
+    @Test
+    @DisplayName("firstName Je")
+    void testFirstName2() {
+        String name = "Je";
+        assertTrue(isFirstNameCorrect(name));
+    }
 
-    @ParameterizedTest
-    @DisplayName("firstName negative tests")
-    @ValueSource(strings = {"J","陳", "O''Neal", "Jean--Clause", "-Jean", "Jean-", "'Neal", "Neal'", "Ne'-al", "F1edor", "F!edor"})
-    void testFirstNameNegative(String name) {
+    @Test
+    @DisplayName("firstName J")
+    void testFirstName3() {
+
+        String name = "J";
         assertFalse(isFirstNameCorrect(name));
     }
 
+    @Test
+    @DisplayName("firstName 陳")
+    void testFirstName4() {
+        String name = "陳";
+        assertFalse(isFirstNameCorrect(name));
+    }
 
-    @ParameterizedTest
-    @DisplayName("lastName positive tests")
-    @ValueSource(strings = {"Je Jean-Clause O'Neal", "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien", "O'Connor" })
-    void testLastNamePositive(String name) {
+    @Test
+    @DisplayName("firstName O'Neal")
+    void testFirstName5() {
+        String name = "O'Neal";
+        assertTrue(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName O''Neal with double apostrophes")
+    void testFirstName6() {
+        String name = "O''Neal";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName Jean--Clause with double hyphens")
+    void testFirstName7() {
+        String name = "O''Neal";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName -Jean hyphen isn't at first place")
+    void testFirstName8() {
+        String name = "-Jean";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName Jean- hyphen isn't at last place")
+    void testFirstName9() {
+        String name = "Jean-";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName 'Neal apostrophes isn't at first place")
+    void testFirstName10() {
+        String name = "'Neal";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("firstName Neal' apostrophes isn't at last place")
+    void testFirstName11() {
+        String name = "Neal'";
+        assertFalse(isFirstNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("lastName Je Jean-Clause O'Neal")
+    void testLastName1() {
+        String name = "Je Jean-Clause O'Neal";
         assertTrue(isLastNameCorrect(name));
     }
 
+    @Test
+    @DisplayName("lastName Robert Jemison Van de Graaff or John Ronald Reuel Tolkien")
+    void testLastName2() {
+        String name = "Robert Jemison Van de Graaff or John Ronald Reuel Tolkien";
+        assertTrue(isLastNameCorrect(name));
+    }
 
-    @ParameterizedTest
-    @DisplayName("email positive tests")
-    @ValueSource(strings = {"jdoe@mail.net", "jane.doe@yahoo.com", "j@d.c"})
-    void testEmailPositive(String email) {
+    @Test
+    @DisplayName("lastName O'Connor")
+    void testLastName3() {
+        String name = "O'Connor";
+        assertTrue(isLastNameCorrect(name));
+    }
+
+    @Test
+    @DisplayName("jdoe@mail.net")
+    void testEmail1() {
+        String email = "jdoe@mail.net";
         assertTrue(isEmailCorrect(email));
     }
 
-    @ParameterizedTest
-    @DisplayName("email positive tests")
-    @ValueSource(strings = {"email", "jane.doe@yahoocom", "j@@d.c"})
-    void testEmailNegative(String email) {
+    @Test
+    @DisplayName("jane.doe@yahoo.com")
+    void testEmail2() {
+        String email = "jane.doe@yahoo.com";
+        assertTrue(isEmailCorrect(email));
+    }
+
+    @Test
+    @DisplayName("email")
+    void testEmail3() {
+        String email = "email";
         assertFalse(isEmailCorrect(email));
     }
 
-
-    @ParameterizedTest
-    @MethodSource("credentialProviderPositive")
-    void testCredentialsPositive(String[] credentials) {
+    @Test
+    @DisplayName("John Doe jdoe@mail.net - correct")
+    void testCorrectCredentials1() {
+        String[] credentials = {"John", "Doe", "jdoe@mail.net"};
         assertTrue(isCorrectCredentials(credentials));
-
-    }
-    static Stream<Arguments> credentialProviderPositive() {
-        return Stream.of(
-                arguments((Object) new String[]{"John", "Doe", "jdoe@mail.net"}),
-                arguments((Object) new String[]{"Jane", "Doe","jane.doe@yahoo.com"}),
-                arguments((Object) new String[]{"Jean-Claude", "O'Connor", "jcda123@google.net"})
-        );
     }
 
-    @ParameterizedTest
-    @MethodSource("credentialProviderNegative")
-    void testCredentialsNegative(String[] credentials) {
+    @Test
+    @DisplayName("Jane Doe jane.doe@yahoo.com - correct")
+    void testCorrectCredentials2() {
+        String[] credentials = {"Jane", "Doe","jane.doe@yahoo.com"};
+        assertTrue(isCorrectCredentials(credentials));
+    }
+
+    @Test
+    @DisplayName(" help - incorrect")
+    void testCorrectCredentials3() {
+        String[] credentials = {"help"};
         assertFalse(isCorrectCredentials(credentials));
-
-    }
-    static Stream<Arguments> credentialProviderNegative() {
-        return Stream.of(
-                arguments((Object) new String[]{"help"}),
-                arguments((Object) new String[]{"Jane", "Doe"}),
-                arguments((Object) new String[]{})
-        );
     }
 
-    @ParameterizedTest
-    @MethodSource("pointsProviderPositive")
-    void testPointsPositive(String[] points) {
-        assertTrue(isPointsFormatCorrect(points));
-
-    }
-    static Stream<Arguments> pointsProviderPositive() {
-        return Stream.of(
-                arguments((Object) new String[]{"10000", "5", "5", "5", "5"}),
-                arguments((Object) new String[]{"10000", "0", "0", "0", "0"}),
-                arguments((Object) new String[]{"10000", "10", "10", "10", "10"})
-        );
+    @Test
+    @DisplayName("Jean-Claude O'Connor jcda123@google.net- correct")
+    void testCorrectCredentials4() {
+        String[] credentials = {"Jean-Claude", "O'Connor", "jcda123@google.net"};
+        assertTrue(isCorrectCredentials(credentials));
     }
 
-    @ParameterizedTest
-    @MethodSource("pointsProviderNegative")
-    void testPointsNegative(String[] points) {
-        assertFalse(isPointsFormatCorrect(points));
-
-    }
-    static Stream<Arguments> pointsProviderNegative() {
-        return Stream.of(
-                arguments((Object) new String[]{"10000", "7", "7", "7", "7", "7"}),
-                arguments((Object) new String[]{"10000", "-1", "2", "2", "2"}),
-                arguments((Object) new String[]{"10000", "?", "1", "1", "1"})
-        );
-    }
 
 
 
