@@ -1,6 +1,4 @@
 package tracker;
-
-import javax.sound.midi.Soundbank;
 import java.util.*;
 
 public class Main {
@@ -11,6 +9,10 @@ public class Main {
 
     private static Map<Integer, Student> studentList = new HashMap<>();
     private static Deque<Integer> idList = new ArrayDeque<>();
+
+    private static List<String> typeOfCourses = List.of("Java", "DSA", "Databases", "Spring");
+
+    private static Map<String, Course> Courses = new HashMap<>();
 
     public static void main(String[] args) {
         startMenu();
@@ -44,7 +46,7 @@ public class Main {
 
     private static void printStatistics() {
         System.out.println("Type the name of a course to see details or 'back' to quit:");
-        System.out.printf("Most popular: %s%n", isMostPopular());
+        System.out.printf("Most popular: %s%n", isMostPopularCourse());
         System.out.printf("Least popular: %s%n", isLeastPopular());
         System.out.printf("Highest activity: %s%n", hasHighestActivity());
         System.out.printf("Lowest activity: %s%n", hasLowestActivity());
@@ -74,13 +76,12 @@ public class Main {
         } while (!"back".equals(command));
     }
 
-    private static String isMostPopular() {
-        return;
+    private static void createListOfCourses() {
+        for (String course : typeOfCourses) {
+            Courses.put(course, new Course(course));
+        }
     }
 
-    private static String isLeastPopular() {
-        return;
-    }
 
     private static String input() {
         Scanner sc = new Scanner(System.in);
@@ -214,10 +215,33 @@ public class Main {
 
     protected static void updatePoints(String[] points) {
         int id = Integer.parseInt(points[0]);
-        studentList.get(id).addPointJava(Integer.parseInt(points[1]));
-        studentList.get(id).addPointDSA(Integer.parseInt(points[2]));
-        studentList.get(id).addPointDB(Integer.parseInt(points[3]));
-        studentList.get(id).addPointSpring(Integer.parseInt(points[4]));
+        if (Integer.parseInt(points[1]) != 0) {
+            studentList.get(id).addPointJava(Integer.parseInt(points[1]));
+            Courses.get("Java").addNumberOfEnrolledStudents();
+            Courses.get("Java").addNumberOfCompletedTasks();
+            Courses.get("Java").addNumberOfPoints(Integer.parseInt(points[1]));
+        }
+        if (Integer.parseInt(points[2]) != 0) {
+            studentList.get(id).addPointDSA(Integer.parseInt(points[2]));
+            Courses.get("DSA").addNumberOfEnrolledStudents();
+            Courses.get("DSA").addNumberOfCompletedTasks();
+            Courses.get("DSA").addNumberOfPoints(Integer.parseInt(points[2]));
+        }
+
+        if (Integer.parseInt(points[3]) != 0) {
+            studentList.get(id).addPointDB(Integer.parseInt(points[3]));
+            Courses.get("Databases").addNumberOfEnrolledStudents();
+            Courses.get("Databases").addNumberOfCompletedTasks();
+            Courses.get("Databases").addNumberOfPoints(Integer.parseInt(points[3]));
+        }
+
+        if (Integer.parseInt(points[4]) != 0) {
+            studentList.get(id).addPointSpring(Integer.parseInt(points[4]));
+            Courses.get("Spring").addNumberOfEnrolledStudents();
+            Courses.get("Spring").addNumberOfCompletedTasks();
+            Courses.get("Spring").addNumberOfPoints(Integer.parseInt(points[4]));
+        }
+
         System.out.println("Points updated.");
     }
 
@@ -302,12 +326,19 @@ class Student {
     String email;
 
     int pointJava;
+    final int MAX_POINTS_JAVA = 600;
 
     int pointDSA;
 
+    final int MAX_POINTS_DSA = 400;
+
     int pointDB;
 
+    final int MAX_POINTS_DB = 480;
+
     int pointSpring;
+
+    final int MAX_POINTS_SPRING = 550;
 
 
 
@@ -351,18 +382,30 @@ class Student {
 
     public void addPointJava(int point) {
         pointJava += point;
-    }
-
-    public void addPointDB(int point) {
-        pointDB += point;
+        if(pointJava > MAX_POINTS_JAVA) {
+            pointJava = MAX_POINTS_JAVA;
+        }
     }
 
     public void addPointDSA(int point) {
         pointDSA += point;
+        if(pointDSA > MAX_POINTS_DSA) {
+            pointDSA = MAX_POINTS_DSA;
+        }
+    }
+
+    public void addPointDB(int point) {
+        pointDB += point;
+        if(pointDB > MAX_POINTS_DB) {
+            pointDB = MAX_POINTS_DB;
+        }
     }
 
     public void addPointSpring(int point) {
         pointSpring += point;
+        if(pointSpring > MAX_POINTS_SPRING) {
+            pointSpring = MAX_POINTS_SPRING;
+        }
     }
 
     //Check if the provided email has been already used when adding information about students.
@@ -384,3 +427,41 @@ class Student {
         return false;
     }
 }
+
+class Course {
+    String name;
+    int numberOfEnrolledStudents;
+    int numberOfCompletedTasks;
+
+    int numberOfPoints;
+    int averageGradePerAssignment = numberOfPoints / numberOfCompletedTasks;
+
+    public Course(String name) {
+        this.name = name;
+    }
+
+    public int getNumberOfEnrolledStudents() {
+        return numberOfEnrolledStudents;
+    }
+
+    public int getNumberOfCompletedTasks() {
+        return numberOfCompletedTasks;
+    }
+
+    public int getAverageGradePerAssignment() {
+        return averageGradePerAssignment;
+    }
+
+    public void addNumberOfEnrolledStudents() {
+        numberOfEnrolledStudents++;
+    }
+
+    public void addNumberOfCompletedTasks() {
+        numberOfCompletedTasks++;
+    }
+
+    public void addNumberOfPoints(int points) {
+        numberOfPoints += points;
+    }
+}
+
