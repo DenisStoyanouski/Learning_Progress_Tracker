@@ -10,7 +10,7 @@ public class Main {
     private static SortedMap<Integer, Student> studentList = new TreeMap<>();
     private static Deque<Integer> idList = new ArrayDeque<>();
 
-    private static List<String> typeOfCourses = List.of("Java", "DSA", "Databases", "Spring");
+    private static final List<String> typeOfCourses = List.of("Java", "DSA", "Databases", "Spring");
 
     private static List<Course> Courses = new ArrayList<>();
 
@@ -73,7 +73,7 @@ public class Main {
                     printDatabasesCourseStat();
                     break;
                 case "spring":
-                    printSprintCousreStat();
+                    printSprintCourseStat();
                     break;
                 case "back":
                     break;
@@ -84,17 +84,17 @@ public class Main {
     }
 
     private static String isMostPopular() {
-        Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         if (Courses == null || Courses.size() == 0) {
             return "n/a";
         }
-        int enroll = Courses.get(Courses.size() - 1).numberOfEnrolledStudents;
-        StringBuilder enrolled = new StringBuilder();
-        Courses.forEach(x -> {if (x.numberOfCompletedTasks == enroll) {
-            enrolled.append(x.name);
-            enrolled.append(", ");
+        Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
+        int enroll = Courses.get(Courses.size() - 1).getNumberOfEnrolledStudents();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
+            courses.append(x.name).append(",").append(" ");
         }});
-        return enrolled.toString();
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
 
     private static String isLeastPopular() {
@@ -102,7 +102,13 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
-        return Courses.get(0).name;
+        int enroll = Courses.get(0).getNumberOfEnrolledStudents();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
+            courses.append(x.name).append(",").append(" ");
+        }});
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
 
     private static String hasHighestActivity() {
@@ -110,6 +116,7 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
+
         return Courses.get(Courses.size() - 1).name;
     }
 
@@ -274,27 +281,27 @@ public class Main {
         int id = Integer.parseInt(points[0]);
         if (Integer.parseInt(points[1]) != 0) {
             studentList.get(id).addPointJava(Integer.parseInt(points[1]));
-            Courses.get(0).addNumberOfEnrolledStudents();
+            Courses.get(0).addNumberOfEnrolledStudents(id);
             Courses.get(0).addNumberOfCompletedTasks();
             Courses.get(0).addNumberOfPoints(Integer.parseInt(points[1]));
         }
         if (Integer.parseInt(points[2]) != 0) {
             studentList.get(id).addPointDSA(Integer.parseInt(points[2]));
-            Courses.get(1).addNumberOfEnrolledStudents();
+            Courses.get(1).addNumberOfEnrolledStudents(id);
             Courses.get(1).addNumberOfCompletedTasks();
             Courses.get(1).addNumberOfPoints(Integer.parseInt(points[2]));
         }
 
         if (Integer.parseInt(points[3]) != 0) {
             studentList.get(id).addPointDB(Integer.parseInt(points[3]));
-            Courses.get(2).addNumberOfEnrolledStudents();
+            Courses.get(2).addNumberOfEnrolledStudents(id);
             Courses.get(2).addNumberOfCompletedTasks();
             Courses.get(2).addNumberOfPoints(Integer.parseInt(points[3]));
         }
 
         if (Integer.parseInt(points[4]) != 0) {
             studentList.get(id).addPointSpring(Integer.parseInt(points[4]));
-            Courses.get(3).addNumberOfEnrolledStudents();
+            Courses.get(3).addNumberOfEnrolledStudents(id);
             Courses.get(3).addNumberOfCompletedTasks();
             Courses.get(3).addNumberOfPoints(Integer.parseInt(points[4]));
         }
@@ -486,20 +493,20 @@ class Student {
 }
 
 class Course {
-    String name;
-    int numberOfEnrolledStudents;
-    int numberOfCompletedTasks;
+    final String name;
+    private Set<Integer> numberOfEnrolledStudents = new HashSet<>();
+    private int numberOfCompletedTasks;
 
-    int numberOfPoints;
+    private int numberOfPoints;
 
-    int averageGradePerAssignment;
+    private int averageGradePerAssignment;
 
     public Course(String name) {
         this.name = name;
     }
 
     public Integer getNumberOfEnrolledStudents() {
-        return numberOfEnrolledStudents;
+        return numberOfEnrolledStudents.size();
     }
 
     public int getNumberOfCompletedTasks() {
@@ -510,8 +517,8 @@ class Course {
         return numberOfCompletedTasks != 0 ? numberOfPoints / numberOfCompletedTasks : 0;
     }
 
-    public void addNumberOfEnrolledStudents() {
-        numberOfEnrolledStudents++;
+    public void addNumberOfEnrolledStudents(int id) {
+        numberOfEnrolledStudents.add(id);
     }
 
     public void addNumberOfCompletedTasks() {
