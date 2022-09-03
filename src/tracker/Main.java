@@ -84,12 +84,12 @@ public class Main {
     }
 
     private static void printCourseStat(String course) {
-        List<Stats>
+        List<Stats> statsList = new ArrayList<>();
         System.out.println(course);
         System.out.println("id      points   completed");
-        for(Student student : studentList.values()) {
-            if (student.getPointJava() > 0) {
-
+        for(var entry : studentList.entrySet()) {
+            if (entry.getValue().getPointJava() > 0) {
+                statsList.add(new Stats(entry.getKey(), entry.getValue().getPointJava()));
             }
         }
 
@@ -423,7 +423,6 @@ class Student {
 
     int pointJava;
     final int MAX_POINTS_JAVA = 600;
-
     int pointDSA;
 
     final int MAX_POINTS_DSA = 400;
@@ -563,14 +562,20 @@ class Course {
 }
 
 class Stats {
+
+    final int MAX_POINTS_JAVA = 600;
     int id;
     int points;
     double completed;
 
-    public Stats(int id, int points, double completed) {
+    public Stats(int id, int points) {
         this.id = id;
         this.points = points;
-        this.completed = completed;
+    }
+
+    private String getCompleted() {
+        double completed = (double) points / MAX_POINTS_JAVA;
+        return String.valueOf(completed) + " %";
     }
 }
 
