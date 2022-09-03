@@ -60,27 +60,39 @@ public class Main {
         System.out.printf("Easiest course: %s%n", isEasiestCourse());
         System.out.printf("Hardest course: %s%n", isHardestCourse());
         String command;
-        /*do {
+        do {
             command = input();
             switch (command) {
                 case "java":
-                    printJavaCourseStat();
+                    printCourseStat("Java");
                     break;
                 case "dsa":
-                    printDSACourseStat();
+                    printCourseStat("DSA");
                     break;
                 case "databases":
-                    printDatabasesCourseStat();
+                    printCourseStat("Databases");
                     break;
                 case "spring":
-                    printSprintCourseStat();
+                    printCourseStat("Spring");
                     break;
                 case "back":
                     break;
                 default:
                     System.out.println("Unknown course.");
             }
-        } while (!"back".equals(command));*/
+        } while (!"back".equals(command));
+    }
+
+    private static void printCourseStat(String course) {
+        List<Stats>
+        System.out.println(course);
+        System.out.println("id      points   completed");
+        for(Student student : studentList.values()) {
+            if (student.getPointJava() > 0) {
+
+            }
+        }
+
     }
 
     private static String isMostPopular() {
@@ -547,6 +559,18 @@ class Course {
 
     public void addNumberOfPoints(int points) {
         numberOfPoints += points;
+    }
+}
+
+class Stats {
+    int id;
+    int points;
+    double completed;
+
+    public Stats(int id, int points, double completed) {
+        this.id = id;
+        this.points = points;
+        this.completed = completed;
     }
 }
 
