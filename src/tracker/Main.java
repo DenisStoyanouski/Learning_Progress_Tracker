@@ -116,8 +116,13 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
-
-        return Courses.get(Courses.size() - 1).name;
+        int enroll = Courses.get(Courses.size() - 1).getNumberOfCompletedTasks();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
+            courses.append(x.name).append(",").append(" ");
+        }});
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
 
     private static String hasLowestActivity() {
@@ -125,7 +130,13 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
-        return Courses.get(0).name;
+        int enroll = Courses.get(0).getNumberOfCompletedTasks();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
+            courses.append(x.name).append(",").append(" ");
+        }});
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
 
     private static String isEasiestCourse() {
@@ -133,7 +144,13 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
-        return Courses.get(Courses.size() - 1).name;
+        double minAverageGrade = Courses.get(Courses.size() - 1).getAverageGradePerAssignment();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == minAverageGrade) {
+            courses.append(x.name).append(",").append(" ");
+        }});
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
 
     private static String isHardestCourse() {
@@ -141,11 +158,14 @@ public class Main {
             return "n/a";
         }
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
-        return Courses.get(0).name;
+        double maxAverageGrade = Courses.get(0).getAverageGradePerAssignment();
+        StringBuilder courses = new StringBuilder();
+        Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == maxAverageGrade) {
+            courses.append(x.name).append(",").append(" ");
+        }});
+        courses.delete(courses.lastIndexOf(","), courses.length());
+        return courses.toString();
     }
-
-
-
 
     private static String input() {
         Scanner sc = new Scanner(System.in);
@@ -499,7 +519,7 @@ class Course {
 
     private int numberOfPoints;
 
-    private int averageGradePerAssignment;
+    private double averageGradePerAssignment;
 
     public Course(String name) {
         this.name = name;
@@ -513,8 +533,8 @@ class Course {
         return numberOfCompletedTasks;
     }
 
-    public int getAverageGradePerAssignment() {
-        return numberOfCompletedTasks != 0 ? numberOfPoints / numberOfCompletedTasks : 0;
+    public double getAverageGradePerAssignment() {
+        return numberOfCompletedTasks != 0 ? averageGradePerAssignment = (double) numberOfPoints / numberOfCompletedTasks : 0;
     }
 
     public void addNumberOfEnrolledStudents(int id) {
