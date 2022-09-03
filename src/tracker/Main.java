@@ -88,7 +88,13 @@ public class Main {
         if (Courses == null || Courses.size() == 0) {
             return "n/a";
         }
-        return Courses.get(Courses.size() - 1).name;
+        int enroll = Courses.get(Courses.size() - 1).numberOfEnrolledStudents;
+        StringBuilder enrolled = new StringBuilder();
+        Courses.forEach(x -> {if (x.numberOfCompletedTasks == enroll) {
+            enrolled.append(x.name);
+            enrolled.append(", ");
+        }});
+        return enrolled.toString();
     }
 
     private static String isLeastPopular() {
