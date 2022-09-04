@@ -1,5 +1,9 @@
 package tracker;
+import java.math.BigDecimal;
+import java.math.RoundingMode;
 import java.util.*;
+
+import static java.math.RoundingMode.HALF_UP;
 
 public class Main {
 
@@ -64,7 +68,7 @@ public class Main {
             command = input();
             switch (command) {
                 case "java":
-                    printCourseStat("Java");
+                    printCourseStat("java");
                     break;
                 case "dsa":
                     printCourseStat("DSA");
@@ -87,11 +91,8 @@ public class Main {
         List<Stats> statsList = new ArrayList<>();
         System.out.println(course);
         System.out.println("id      points   completed");
-        for(var entry : studentList.entrySet()) {
-            if (entry.getValue().getPointJava() > 0) {
-                statsList.add(new Stats(entry.getKey(), entry.getValue().getPointJava()));
-            }
-        }
+        buildStatistic(course);
+
 
     }
 
@@ -367,10 +368,10 @@ public class Main {
     protected static void printPoints(int id) {
         System.out.printf("%d points: Java=%d; DSA=%d; Databases=%d; Spring=%d%n",
                 id,
-                studentList.get(id).getPointJava(),
-                studentList.get(id).getPointDSA(),
-                studentList.get(id).getPointDB(),
-                studentList.get(id).getPointSpring());
+                studentList.get(id).getPoints("java"),
+                studentList.get(id).getPoints("dsa"),
+                studentList.get(id).getPoints("databases"),
+                studentList.get(id).getPoints("spring"));
     }
 
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
@@ -414,6 +415,14 @@ public class Main {
         }
         return isEmailCorrect;
     }
+
+    private static void buildStatistic(String course) {
+        for (var entry : studentList.entrySet()) {
+            if (entry.getValue().getPoints(course) > 0) {
+                statsList.add(new Stats(entry.getKey(), entry.getValue().getPoints(course), entry.getValue().getCompleted(course)));
+            }
+        }
+    }
 }
 
 class Student {
@@ -421,21 +430,11 @@ class Student {
     String lastName;
     String email;
 
-    int pointJava;
-    final int MAX_POINTS_JAVA = 600;
-    int pointDSA;
+    private int pointJava;
+    private int pointDSA;
+    private int pointDB;
 
-    final int MAX_POINTS_DSA = 400;
-
-    int pointDB;
-
-    final int MAX_POINTS_DB = 480;
-
-    int pointSpring;
-
-    final int MAX_POINTS_SPRING = 550;
-
-
+    private int pointSpring;
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -443,63 +442,68 @@ class Student {
         this.email = email;
     }
 
-    public int getPointDB() {
-        return pointDB;
+    public int getPoints(String course) {
+        int points = 0;
+        switch (course) {
+            case "java" : points = pointJava;
+            break;
+            case "dsa" : points = pointDSA;
+            break;
+            case "databases" : points = pointDB;
+            break;
+            case "spring" : points = pointSpring;
+            break;
+            default: break;
+        }
+        return points;
     }
 
-    public void setPointDB(int pointDB) {
-        this.pointDB = pointDB;
+    public String getCompleted(String course) {
+        BigDecimal completed = new BigDecimal((double) getPoints(course) / getMaxPointsForCourse(course)).setScale(1, HALF_UP);
+        return completed + "%";
     }
 
-    public int getPointDSA() {
-        return pointDSA;
-    }
-
-    public void setPointDSA(int pointDSA) {
-        this.pointDSA = pointDSA;
-    }
-
-    public int getPointJava() {
-        return pointJava;
-    }
-
-    public void setPointJava(int pointJava) {
-        this.pointJava = pointJava;
-    }
-
-    public int getPointSpring() {
-        return pointSpring;
-    }
-
-    public void setPointSpring(int pointSpring) {
-        this.pointSpring = pointSpring;
+    private int getMaxPointsForCourse(String course) {
+        int maxPoints = 0;
+        switch (course) {
+            case "java" : maxPoints = 600;
+                break;
+            case "dsa" : maxPoints = 400;
+                break;
+            case "databases" : maxPoints = 480;
+                break;
+            case "spring" : maxPoints = 550;
+                break;
+            default: break;
+        }
+        return maxPoints;
     }
 
     public void addPointJava(int point) {
         pointJava += point;
-        if(pointJava > MAX_POINTS_JAVA) {
-            pointJava = MAX_POINTS_JAVA;
+        if(pointJava > getMaxPointsForCourse("java")) {
+            pointJava = getMaxPointsForCourse("java");
         }
     }
 
     public void addPointDSA(int point) {
         pointDSA += point;
-        if(pointDSA > MAX_POINTS_DSA) {
-            pointDSA = MAX_POINTS_DSA;
+        if(pointDSA > getMaxPointsForCourse("dsa")) {
+            pointDSA = getMaxPointsForCourse("dsa");
         }
     }
 
     public void addPointDB(int point) {
         pointDB += point;
-        if(pointDB > MAX_POINTS_DB) {
-            pointDB = MAX_POINTS_DB;
+        if(pointDB > getMaxPointsForCourse("database")) {
+            pointDB = getMaxPointsForCourse("database");
         }
     }
 
     public void addPointSpring(int point) {
         pointSpring += point;
-        if(pointSpring > MAX_POINTS_SPRING) {
-            pointSpring = MAX_POINTS_SPRING;
+        if(pointSpring > getMaxPointsForCourse("spring")) {
+            pointSpring = getMaxPointsForCourse("spring");
         }
     }
 
@@ -563,19 +567,16 @@ class Course {
 
 class Stats {
 
-    final int MAX_POINTS_JAVA = 600;
     int id;
     int points;
-    double completed;
+    String completed;
 
-    public Stats(int id, int points) {
+    public Stats(int id, int points, String completed) {
         this.id = id;
         this.points = points;
+        this.completed = completed;
     }
 
-    private String getCompleted() {
-        double completed = (double) points / MAX_POINTS_JAVA;
-        return String.valueOf(completed) + " %";
-    }
+
 }
 
