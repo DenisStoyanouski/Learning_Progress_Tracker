@@ -1,6 +1,5 @@
 package tracker;
 import java.math.BigDecimal;
-import java.math.RoundingMode;
 import java.util.*;
 
 import static java.math.RoundingMode.HALF_UP;
@@ -471,7 +470,7 @@ class Student {
     }
 
     public String getCompleted(String course) {
-        BigDecimal completed = new BigDecimal((double) getPoints(course) / getMaxPointsForCourse(course)).setScale(1, HALF_UP);
+        BigDecimal completed = BigDecimal.valueOf((double) getPoints(course) / getMaxPointsForCourse(course) * 100).setScale(1, HALF_UP);
         return completed + "%";
     }
 
@@ -507,8 +506,8 @@ class Student {
 
     public void addPointDB(int point) {
         pointDB += point;
-        if(pointDB > getMaxPointsForCourse("database")) {
-            pointDB = getMaxPointsForCourse("database");
+        if(pointDB > getMaxPointsForCourse("databases")) {
+            pointDB = getMaxPointsForCourse("databases");
         }
     }
 
@@ -546,8 +545,6 @@ class Course {
 
     private int numberOfPoints;
 
-    private double averageGradePerAssignment;
-
     public Course(String name) {
         this.name = name;
     }
@@ -561,7 +558,7 @@ class Course {
     }
 
     public double getAverageGradePerAssignment() {
-        return numberOfCompletedTasks != 0 ? averageGradePerAssignment = (double) numberOfPoints / numberOfCompletedTasks : 0;
+        return numberOfCompletedTasks != 0 ? (double) numberOfPoints / numberOfCompletedTasks : 0;
     }
 
     public void addNumberOfEnrolledStudents(int id) {
