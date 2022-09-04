@@ -410,6 +410,7 @@ public class Main {
 
     private static void printCourseStat(String course) {
         System.out.println(String.valueOf(course.charAt(0)).toUpperCase() + course.substring(1));
+        System.out.println("id  points  completed");
         createStatistic(course);
     }
 
