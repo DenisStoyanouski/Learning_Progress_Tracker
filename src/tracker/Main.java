@@ -71,13 +71,13 @@ public class Main {
                     printCourseStat("java");
                     break;
                 case "dsa":
-                    printCourseStat("DSA");
+                    printCourseStat("dsa");
                     break;
                 case "databases":
-                    printCourseStat("Databases");
+                    printCourseStat("databases");
                     break;
                 case "spring":
-                    printCourseStat("Spring");
+                    printCourseStat("spring");
                     break;
                 case "back":
                     break;
@@ -85,15 +85,6 @@ public class Main {
                     System.out.println("Unknown course.");
             }
         } while (!"back".equals(command));
-    }
-
-    private static void printCourseStat(String course) {
-        List<Stats> statsList = new ArrayList<>();
-        System.out.println(course);
-        System.out.println("id      points   completed");
-        buildStatistic(course);
-
-
     }
 
     private static String isMostPopular() {
@@ -269,6 +260,7 @@ public class Main {
     protected static boolean checkPoints(String[] points) {
         return isPointsFormatCorrect(points) && isIdExist(points[0]);
     }
+
     protected static boolean isPointsFormatCorrect(String[] points) {
         boolean isCorrect = false;
         if (points == null || points.length != 5) {
@@ -292,7 +284,6 @@ public class Main {
         }
         return isCorrect;
     }
-
 
     protected static boolean isIdExist(String id) {
         boolean isIdExist = false;
@@ -377,6 +368,7 @@ public class Main {
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
     at least two characters long, hyphens and apostrophes - not at the first or the last character,
     cannot be adjacent to each other.*/
+
     protected static boolean isFirstNameCorrect(String firstName) {
         boolean isFirstNameCorrect = false;
         if (firstName.matches("\\b[A-Za-z]+([A-Za-z]*[-']?[A-Za-z]+)+\\b")) {
@@ -400,12 +392,12 @@ public class Main {
         }
         return isLastNameCorrect;
     }
-
     /*The local part can be up to 64 characters in length and consist of any combination of alphabetic characters,
     digits, or any of the following special characters: ! # $ % & ‘ * + – / = ? ^ _ ` . { | } ~
     The domain part cannot be more than 255 characters in length and must conform to the specification for hostnames
     which is a list of dot-separated DNS labels. Each DNS label must not exceed 63 characters and should consist
     of any combination of alphabetic characters, digits and hyphens.*/
+
     protected static boolean isEmailCorrect(String email) {
         boolean isEmailCorrect = false;
         if (email.matches("[\\w[^@]]{1,63}@[\\w[^@]]{1,192}[.][\\w[^@]]{1,63}")) {
@@ -416,12 +408,31 @@ public class Main {
         return isEmailCorrect;
     }
 
-    private static void buildStatistic(String course) {
+    private static void printCourseStat(String course) {
+        System.out.println(String.valueOf(course.charAt(0)).toUpperCase() + course.substring(1));
+        createStatistic(course);
+    }
+
+    private static void createStatistic(String course) {
+        ArrayList<Stats> statsList = new ArrayList<>();
         for (var entry : studentList.entrySet()) {
             if (entry.getValue().getPoints(course) > 0) {
                 statsList.add(new Stats(entry.getKey(), entry.getValue().getPoints(course), entry.getValue().getCompleted(course)));
             }
         }
+        sortList(statsList);
+    }
+
+    private static void sortList(ArrayList<Stats> statsList) {
+        statsList.sort(Comparator.comparing(Stats::getPoints).thenComparing(Stats::getId).reversed());
+        printStatsList(statsList);
+    }
+
+    private static void printStatsList(ArrayList<Stats> statsList) {
+        for(Stats stats : statsList) {
+            System.out.printf("%d     %d      %s%n", stats.getId(), stats.getPoints(), stats.getCompleted());
+        }
+        statsList.clear();
     }
 }
 
@@ -567,9 +578,9 @@ class Course {
 
 class Stats {
 
-    int id;
-    int points;
-    String completed;
+    final int id;
+    final int points;
+    final String completed;
 
     public Stats(int id, int points, String completed) {
         this.id = id;
@@ -577,6 +588,16 @@ class Stats {
         this.completed = completed;
     }
 
+    public int getPoints() {
+        return points;
+    }
 
+    public int getId() {
+        return id;
+    }
+
+    public String getCompleted() {
+        return completed;
+    }
 }
 
