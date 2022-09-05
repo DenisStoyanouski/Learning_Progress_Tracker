@@ -129,19 +129,19 @@ public class Main {
     }
 
     private static ArrayList<String> hasLowestActivity() {
-        ArrayList<String> lowestActivityCourses = new ArrayList<>();
+        ArrayList<String> hardestCourses = new ArrayList<>();
 
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(0).getNumberOfCompletedTasks();
         Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
-            lowestActivityCourses.add(x.name);
+            hardestCourses.add(x.name);
         }});
 
-        lowestActivityCourses.removeAll(hasHighestActivity());
-        if (lowestActivityCourses.isEmpty()) {
-            lowestActivityCourses.add("n/a");
+        hardestCourses.removeAll(hasHighestActivity());
+        if (hardestCourses.isEmpty()) {
+            hardestCourses.add("n/a");
         }
-        return lowestActivityCourses;
+        return hardestCourses;
     }
 
     private static ArrayList<String> isEasiestCourse() {
@@ -158,18 +158,20 @@ public class Main {
         return easiestCourses;
     }
 
-    private static String isHardestCourse() {
-        if (Courses == null || Courses.size() == 0) {
-            return "n/a";
-        }
+    private static ArrayList<String> isHardestCourse() {
+        ArrayList<String> hardestCourses = new ArrayList<>();
+        
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
         double maxAverageGrade = Courses.get(0).getAverageGradePerAssignment();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == maxAverageGrade) {
-            courses.append(x.name).append(",").append(" ");
+            hardestCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+        
+        hardestCourses.removeAll(isEasiestCourse());
+        if (hardestCourses.isEmpty()) {
+            hardestCourses.add("n/a");
+        }
+        return hardestCourses;
     }
 
     private static String input() {
