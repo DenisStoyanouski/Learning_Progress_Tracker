@@ -462,16 +462,19 @@ public class Main {
         for (Student student : studentList.values()) {
             if (!notifiedStudents.contains(student)) {
                 for(String course : typeOfCourses) {
-                    if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())) {
+                    if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())
+                            && !student.isNotifiedCourse(course)) {
                         System.out.printf("To: %s%n", student.email);
                         System.out.println("Re: Your Learning Progress");
                         System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
+                        student.setNotifiedCourse(course);
                         notifiedStudents.add(student);
                         }
                     }
                 }
             }
         System.out.printf("Total %d students have been notified.%n", notifiedStudents.size());
+        notifiedStudents.clear();
     }
 
 
@@ -487,6 +490,11 @@ class Student {
     private int pointDSA;
     private int pointDB;
     private int pointSpring;
+
+    private boolean notifyJava = false;
+    private boolean notifyDSA = false;
+    private boolean notifyDatabases = false;
+    private boolean notifySpring = false;
 
     public Student(String firstName, String lastName, String email) {
         this.firstName = firstName;
@@ -557,6 +565,35 @@ class Student {
         if(pointSpring > getMaxPointsForCourse("spring")) {
             pointSpring = getMaxPointsForCourse("spring");
         }
+    }
+
+    public void setNotifiedCourse(String course) {
+        switch (course) {
+            case "java" : this.notifyJava = true;
+                break;
+            case "dsa" : this.notifyDSA = true;
+                break;
+            case "databases" : this.notifyDatabases = true;
+                break;
+            case "spring" : this.notifySpring = true;
+            default: break;
+
+        }
+    }
+
+    public boolean isNotifiedCourse(String course) {
+        boolean isNotified = false;
+        switch(course) {
+            case "java" : isNotified = notifyJava;
+            break;
+            case "dsa" : isNotified = notifyDSA;
+            break;
+            case "databases" : isNotified = notifyDatabases;
+            break;
+            case "spring" : isNotified = notifySpring;
+            default: break;
+        }
+        return isNotified;
     }
 
     //Check if the provided email has been already used when adding information about students.
