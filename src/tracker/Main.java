@@ -460,19 +460,17 @@ public class Main {
     private static void sendNotification() {
 
         for (Student student : studentList.values()) {
-            if (!notifiedStudents.contains(student)) {
-                for(String course : typeOfCourses) {
-                    if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())
-                            && !student.isNotifiedCourse(course)) {
-                        System.out.printf("To: %s%n", student.email);
-                        System.out.println("Re: Your Learning Progress");
-                        System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
-                        student.setNotifiedCourse(course);
-                        notifiedStudents.add(student);
-                        }
-                    }
+            for(String course : typeOfCourses) {
+                if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())
+                        && !student.isNotifiedCourse(course.toLowerCase())) {
+                    System.out.printf("To: %s%n", student.email);
+                    System.out.println("Re: Your Learning Progress");
+                    System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
+                    student.setNotifiedCourse(course.toLowerCase());
+                    notifiedStudents.add(student);
                 }
             }
+        }
         System.out.printf("Total %d students have been notified.%n", notifiedStudents.size());
         notifiedStudents.clear();
     }
