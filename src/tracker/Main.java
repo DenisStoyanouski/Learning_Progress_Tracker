@@ -56,15 +56,15 @@ public class Main {
 
     private static void printStatistics() {
         System.out.println("Type the name of a course to see details or 'back' to quit:");
-        System.out.printf("Most popular: %s%n", isMostPopular());
-        System.out.printf("Least popular: %s%n", isLeastPopular());
-        System.out.printf("Highest activity: %s%n", hasHighestActivity());
-        System.out.printf("Lowest activity: %s%n", hasLowestActivity());
-        System.out.printf("Easiest course: %s%n", isEasiestCourse());
-        System.out.printf("Hardest course: %s%n", isHardestCourse());
+        System.out.printf("Most popular: %s%n", isMostPopular().toString().replaceAll("[\\[\\]]", ""));
+        System.out.printf("Least popular: %s%n", isLeastPopular().toString().replaceAll("[\\[\\]]", ""));
+        System.out.printf("Highest activity: %s%n", hasHighestActivity().toString().replaceAll("[\\[\\]]", ""));
+        System.out.printf("Lowest activity: %s%n", hasLowestActivity().toString().replaceAll("[\\[\\]]", ""));
+        System.out.printf("Easiest course: %s%n", isEasiestCourse().toString().replaceAll("[\\[\\]]", ""));
+        System.out.printf("Hardest course: %s%n", isHardestCourse().toString().replaceAll("[\\[\\]]", ""));
         String command;
         do {
-            command = input();
+            command = input().toLowerCase();
             switch (command) {
                 case "java":
                     printCourseStat("java");
@@ -86,32 +86,32 @@ public class Main {
         } while (!"back".equals(command));
     }
 
-    private static String isMostPopular() {
+    private static ArrayList<String> isMostPopular() {
+        ArrayList<String> mostPopularCourses = new ArrayList<>();
         if (Courses == null || Courses.size() == 0) {
-            return "n/a";
+            mostPopularCourses.add("n/a");
+            return mostPopularCourses;
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         int enroll = Courses.get(Courses.size() - 1).getNumberOfEnrolledStudents();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
-            courses.append(x.name).append(",").append(" ");
+            mostPopularCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+        return mostPopularCourses;
     }
 
-    private static String isLeastPopular() {
-        if (Courses == null || Courses.size() == 0) {
-            return "n/a";
-        }
+    private static ArrayList<String> isLeastPopular() {
+        ArrayList<String> leastPopularCourses = new ArrayList<>();
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         int enroll = Courses.get(0).getNumberOfEnrolledStudents();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
-            courses.append(x.name).append(",").append(" ");
+            leastPopularCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+        leastPopularCourses.removeAll(isMostPopular());
+        if (leastPopularCourses.isEmpty()) {
+            leastPopularCourses.add("n/a");
+        }
+        return leastPopularCourses;
     }
 
     private static String hasHighestActivity() {
