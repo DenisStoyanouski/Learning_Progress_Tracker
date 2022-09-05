@@ -17,6 +17,8 @@ public class Main {
 
     private static List<Course> Courses = new ArrayList<>();
 
+    private static Set<Student> notifiedStudents = new HashSet<>();
+
     public static void main(String[] args) {
         startMenu();
     }
@@ -456,19 +458,22 @@ public class Main {
     }
 
     private static void sendNotification() {
-        int totalStudentsNotified = 0;
+
         for (Student student : studentList.values()) {
-            for(String course : typeOfCourses) {
-                if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())) {
-                    System.out.printf("To: %s%n", student.email);
-                    System.out.println("Re: Your Learning Progress");
-                    System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
+            if (!notifiedStudents.contains(student)) {
+                for(String course : typeOfCourses) {
+                    if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())) {
+                        System.out.printf("To: %s%n", student.email);
+                        System.out.println("Re: Your Learning Progress");
+                        System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
+                        notifiedStudents.add(student);
+                        }
+                    }
                 }
             }
-            totalStudentsNotified++;
-        }
-        System.out.printf("Total %d students have been notified.%n", totalStudentsNotified);
+        System.out.printf("Total %d students have been notified.%n", notifiedStudents.size());
     }
+
 
 }
 
@@ -555,11 +560,6 @@ class Student {
     }
 
     //Check if the provided email has been already used when adding information about students.
-
-    @Override
-    public int hashCode() {
-        return Double.valueOf(email).hashCode();
-    }
 
     @Override
     public boolean equals(Object obj) {
