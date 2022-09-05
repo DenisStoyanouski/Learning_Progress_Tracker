@@ -102,6 +102,10 @@ public class Main {
 
     private static ArrayList<String> isLeastPopular() {
         ArrayList<String> leastPopularCourses = new ArrayList<>();
+        if (Courses == null || Courses.size() == 0) {
+            leastPopularCourses.add("n/a");
+            return leastPopularCourses;
+        }
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         int enroll = Courses.get(0).getNumberOfEnrolledStudents();
         Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
@@ -130,6 +134,11 @@ public class Main {
 
     private static ArrayList<String> hasLowestActivity() {
         ArrayList<String> hardestCourses = new ArrayList<>();
+
+        if (Courses == null || Courses.size() == 0) {
+            hardestCourses.add("n/a");
+            return hardestCourses;
+        }
 
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(0).getNumberOfCompletedTasks();
@@ -160,6 +169,11 @@ public class Main {
 
     private static ArrayList<String> isHardestCourse() {
         ArrayList<String> hardestCourses = new ArrayList<>();
+
+        if (Courses == null || Courses.size() == 0) {
+            hardestCourses.add("n/a");
+            return hardestCourses;
+        }
         
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
         double maxAverageGrade = Courses.get(0).getAverageGradePerAssignment();
