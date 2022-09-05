@@ -288,7 +288,7 @@ public class Main {
             for (int i = 1; i < points.length; i++) {
                 try {
                     int point = Integer.parseInt(points[i]);
-                    if (point < 0 || point > 10) {
+                    if (point < 0) {
                         System.out.println("Incorrect points format.");
                         break;
                     } else {
@@ -456,16 +456,18 @@ public class Main {
     }
 
     private static void sendNotification() {
+        int totalStudentsNotified = 0;
         for (Student student : studentList.values()) {
             for(String course : typeOfCourses) {
                 if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())) {
                     System.out.printf("To: %s%n", student.email);
                     System.out.println("Re: Your Learning Progress");
-                    System.out.printf("Hello, %s %s! You have accomplished our %s course!",student.firstName, student.lastName, course);
+                    System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
                 }
             }
-
+            totalStudentsNotified++;
         }
+        System.out.printf("Total %d students have been notified.%n", totalStudentsNotified);
     }
 
 }
