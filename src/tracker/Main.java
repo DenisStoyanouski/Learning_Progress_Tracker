@@ -442,7 +442,7 @@ public class Main {
     }
 
     private static void sortList(ArrayList<Stats> statsList) {
-        statsList.sort(Comparator.comparing(Stats::getPoints).thenComparing(Stats::getId).reversed());
+        statsList.sort(Comparator.comparing(Stats::getPoints).reversed().thenComparing(Stats::getId));
         printStatsList(statsList);
     }
 
