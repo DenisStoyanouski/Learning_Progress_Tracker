@@ -41,6 +41,8 @@ public class Main {
                 addPoints();
             } else if ("find".equals(a)) {
                 findStudent();
+            } else if ("notify".equals(a)){
+                sendNotification();
             } else if (!"exit".equals(a)) {
                 System.out.println("Unknown command!");
             }
@@ -452,7 +454,22 @@ public class Main {
         }
         statsList.clear();
     }
+
+    private static void sendNotification() {
+        for (Student student : studentList.values()) {
+            for(String course : typeOfCourses) {
+                if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())) {
+                    System.out.printf("To: %s%n", student.email);
+                    System.out.println("Re: Your Learning Progress");
+                    System.out.printf("Hello, %s %s! You have accomplished our %s course!",student.firstName, student.lastName, course);
+                }
+            }
+
+        }
+    }
+
 }
+
 
 class Student {
     String firstName;
@@ -462,7 +479,6 @@ class Student {
     private int pointJava;
     private int pointDSA;
     private int pointDB;
-
     private int pointSpring;
 
     public Student(String firstName, String lastName, String email) {
@@ -492,7 +508,7 @@ class Student {
         return completed + "%";
     }
 
-    private int getMaxPointsForCourse(String course) {
+    public int getMaxPointsForCourse(String course) {
         int maxPoints = 0;
         switch (course) {
             case "java" : maxPoints = 600;
