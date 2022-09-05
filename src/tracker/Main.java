@@ -114,46 +114,48 @@ public class Main {
         return leastPopularCourses;
     }
 
-    private static String hasHighestActivity() {
+    private static ArrayList<String> hasHighestActivity() {
+        ArrayList<String> highestActivityCourses = new ArrayList<>();
         if (Courses == null || Courses.size() == 0) {
-            return "n/a";
+            highestActivityCourses.add("n/a");
+            return highestActivityCourses;
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(Courses.size() - 1).getNumberOfCompletedTasks();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
-            courses.append(x.name).append(",").append(" ");
+            highestActivityCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+        return highestActivityCourses;
     }
 
-    private static String hasLowestActivity() {
-        if (Courses == null || Courses.size() == 0) {
-            return "n/a";
-        }
+    private static ArrayList<String> hasLowestActivity() {
+        ArrayList<String> lowestActivityCourses = new ArrayList<>();
+
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(0).getNumberOfCompletedTasks();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
-            courses.append(x.name).append(",").append(" ");
+            lowestActivityCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+
+        lowestActivityCourses.removeAll(hasHighestActivity());
+        if (lowestActivityCourses.isEmpty()) {
+            lowestActivityCourses.add("n/a");
+        }
+        return lowestActivityCourses;
     }
 
-    private static String isEasiestCourse() {
+    private static ArrayList<String> isEasiestCourse() {
+        ArrayList<String> easiestCourses = new ArrayList<>();
         if (Courses == null || Courses.size() == 0) {
-            return "n/a";
+            easiestCourses.add("n/a");
+            return easiestCourses;
         }
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
         double minAverageGrade = Courses.get(Courses.size() - 1).getAverageGradePerAssignment();
-        StringBuilder courses = new StringBuilder();
         Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == minAverageGrade) {
-            courses.append(x.name).append(",").append(" ");
+            easiestCourses.add(x.name);
         }});
-        courses.delete(courses.lastIndexOf(","), courses.length());
-        return courses.toString();
+        return easiestCourses;
     }
 
     private static String isHardestCourse() {
