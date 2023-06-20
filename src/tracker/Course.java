@@ -8,7 +8,6 @@ public class Course {
     final String name;
     private final Set<Integer> numberOfEnrolledStudents = new HashSet<>();
     private int numberOfCompletedTasks;
-
     private int numberOfPoints;
 
     public Course(String name) {

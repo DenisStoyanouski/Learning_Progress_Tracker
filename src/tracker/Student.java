@@ -28,15 +28,20 @@ class Student {
     public int getPoints(String course) {
         int points = 0;
         switch (course) {
-            case "java" : points = pointJava;
+            case "java":
+                points = pointJava;
                 break;
-            case "dsa" : points = pointDSA;
+            case "dsa":
+                points = pointDSA;
                 break;
-            case "databases" : points = pointDB;
+            case "databases":
+                points = pointDB;
                 break;
-            case "spring" : points = pointSpring;
+            case "spring":
+                points = pointSpring;
                 break;
-            default: break;
+            default:
+                break;
         }
         return points;
     }
@@ -49,72 +54,87 @@ class Student {
     public int getMaxPointsForCourse(String course) {
         int maxPoints = 0;
         switch (course) {
-            case "java" : maxPoints = 600;
+            case "java":
+                maxPoints = 600;
                 break;
-            case "dsa" : maxPoints = 400;
+            case "dsa":
+                maxPoints = 400;
                 break;
-            case "databases" : maxPoints = 480;
+            case "databases":
+                maxPoints = 480;
                 break;
-            case "spring" : maxPoints = 550;
+            case "spring":
+                maxPoints = 550;
                 break;
-            default: break;
+            default:
+                break;
         }
         return maxPoints;
     }
 
     public void addPointJava(int point) {
         pointJava += point;
-        if(pointJava > getMaxPointsForCourse("java")) {
+        if (pointJava > getMaxPointsForCourse("java")) {
             pointJava = getMaxPointsForCourse("java");
         }
     }
 
     public void addPointDSA(int point) {
         pointDSA += point;
-        if(pointDSA > getMaxPointsForCourse("dsa")) {
+        if (pointDSA > getMaxPointsForCourse("dsa")) {
             pointDSA = getMaxPointsForCourse("dsa");
         }
     }
 
     public void addPointDB(int point) {
         pointDB += point;
-        if(pointDB > getMaxPointsForCourse("databases")) {
+        if (pointDB > getMaxPointsForCourse("databases")) {
             pointDB = getMaxPointsForCourse("databases");
         }
     }
 
     public void addPointSpring(int point) {
         pointSpring += point;
-        if(pointSpring > getMaxPointsForCourse("spring")) {
+        if (pointSpring > getMaxPointsForCourse("spring")) {
             pointSpring = getMaxPointsForCourse("spring");
         }
     }
 
     public void setNotifiedCourse(String course) {
         switch (course) {
-            case "java" : this.notifyJava = true;
+            case "java":
+                this.notifyJava = true;
                 break;
-            case "dsa" : this.notifyDSA = true;
+            case "dsa":
+                this.notifyDSA = true;
                 break;
-            case "databases" : this.notifyDatabases = true;
+            case "databases":
+                this.notifyDatabases = true;
                 break;
-            case "spring" : this.notifySpring = true;
-            default: break;
+            case "spring":
+                this.notifySpring = true;
+            default:
+                break;
 
         }
     }
 
     public boolean isNotifiedCourse(String course) {
         boolean isNotified = false;
-        switch(course) {
-            case "java" : isNotified = notifyJava;
+        switch (course) {
+            case "java":
+                isNotified = notifyJava;
                 break;
-            case "dsa" : isNotified = notifyDSA;
+            case "dsa":
+                isNotified = notifyDSA;
                 break;
-            case "databases" : isNotified = notifyDatabases;
+            case "databases":
+                isNotified = notifyDatabases;
                 break;
-            case "spring" : isNotified = notifySpring;
-            default: break;
+            case "spring":
+                isNotified = notifySpring;
+            default:
+                break;
         }
         return isNotified;
     }
@@ -127,7 +147,7 @@ class Student {
             return true;
         }
         if (obj instanceof tracker.Student) {
-            tracker.Student student =  (tracker.Student)obj;
+            tracker.Student student = (tracker.Student) obj;
             return this.email.equals(student.email);
         }
         return false;

@@ -1,4 +1,5 @@
 package tracker;
+
 import java.util.*;
 
 
@@ -8,7 +9,7 @@ public class Main {
     static String firstName;
     static String email;
 
-    private static final SortedMap<Integer, Student> studentList = new TreeMap<>();
+    private static SortedMap<Integer, Student> studentList = new TreeMap<>();
     private static final Deque<Integer> idList = new ArrayDeque<>();
 
     private static final List<String> typeOfCourses = List.of("Java", "DSA", "Databases", "Spring");
@@ -33,7 +34,7 @@ public class Main {
                 addStudents();
             } else if ("statistics".equals(a)) {
                 printStatistics();
-            } else if ("back".equals(a)){
+            } else if ("back".equals(a)) {
                 System.out.println("Enter 'exit' to exit the program.");
             } else if ("list".equals(a)) {
                 printIdList();
@@ -41,12 +42,12 @@ public class Main {
                 addPoints();
             } else if ("find".equals(a)) {
                 findStudent();
-            } else if ("notify".equals(a)){
+            } else if ("notify".equals(a)) {
                 sendNotification();
             } else if (!"exit".equals(a)) {
                 System.out.println("Unknown command!");
             }
-        } while(!"exit".equals(a));
+        } while (!"exit".equals(a));
         System.out.println("Bye!");
     }
 
@@ -96,9 +97,11 @@ public class Main {
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         int enroll = Courses.get(Courses.size() - 1).getNumberOfEnrolledStudents();
-        Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
-            mostPopularCourses.add(x.name);
-        }});
+        Courses.forEach(x -> {
+            if (x.getNumberOfEnrolledStudents() == enroll) {
+                mostPopularCourses.add(x.name);
+            }
+        });
         return mostPopularCourses;
     }
 
@@ -110,9 +113,11 @@ public class Main {
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfEnrolledStudents));
         int enroll = Courses.get(0).getNumberOfEnrolledStudents();
-        Courses.forEach(x -> {if (x.getNumberOfEnrolledStudents() == enroll) {
-            leastPopularCourses.add(x.name);
-        }});
+        Courses.forEach(x -> {
+            if (x.getNumberOfEnrolledStudents() == enroll) {
+                leastPopularCourses.add(x.name);
+            }
+        });
         leastPopularCourses.removeAll(isMostPopular());
         if (leastPopularCourses.isEmpty()) {
             leastPopularCourses.add("n/a");
@@ -128,9 +133,11 @@ public class Main {
         }
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(Courses.size() - 1).getNumberOfCompletedTasks();
-        Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
-            highestActivityCourses.add(x.name);
-        }});
+        Courses.forEach(x -> {
+            if (x.getNumberOfCompletedTasks() == enroll) {
+                highestActivityCourses.add(x.name);
+            }
+        });
         return highestActivityCourses;
     }
 
@@ -144,9 +151,11 @@ public class Main {
 
         Courses.sort(Comparator.comparing(Course::getNumberOfCompletedTasks));
         int enroll = Courses.get(0).getNumberOfCompletedTasks();
-        Courses.forEach(x -> {if (x.getNumberOfCompletedTasks() == enroll) {
-            hardestCourses.add(x.name);
-        }});
+        Courses.forEach(x -> {
+            if (x.getNumberOfCompletedTasks() == enroll) {
+                hardestCourses.add(x.name);
+            }
+        });
 
         hardestCourses.removeAll(hasHighestActivity());
         if (hardestCourses.isEmpty()) {
@@ -163,9 +172,11 @@ public class Main {
         }
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
         double minAverageGrade = Courses.get(Courses.size() - 1).getAverageGradePerAssignment();
-        Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == minAverageGrade) {
-            easiestCourses.add(x.name);
-        }});
+        Courses.forEach(x -> {
+            if (x.getAverageGradePerAssignment() == minAverageGrade) {
+                easiestCourses.add(x.name);
+            }
+        });
         return easiestCourses;
     }
 
@@ -176,13 +187,15 @@ public class Main {
             hardestCourses.add("n/a");
             return hardestCourses;
         }
-        
+
         Courses.sort(Comparator.comparing(Course::getAverageGradePerAssignment));
         double maxAverageGrade = Courses.get(0).getAverageGradePerAssignment();
-        Courses.forEach(x -> {if (x.getAverageGradePerAssignment() == maxAverageGrade) {
-            hardestCourses.add(x.name);
-        }});
-        
+        Courses.forEach(x -> {
+            if (x.getAverageGradePerAssignment() == maxAverageGrade) {
+                hardestCourses.add(x.name);
+            }
+        });
+
         hardestCourses.removeAll(isEasiestCourse());
         if (hardestCourses.isEmpty()) {
             hardestCourses.add("n/a");
@@ -204,14 +217,14 @@ public class Main {
                 System.out.printf("Total %d students have been added.%n", studentList.size());
             } else {
                 if (isCorrectCredentials(getCredentials(command))) {
-                    addStudentToList(firstName, lastName,email);
+                    addStudentToList(firstName, lastName, email);
                 }
             }
         } while (!"back".equals(command));
     }
 
     protected static String[] getCredentials(String credentials) {
-       return credentials.split("\\s+");
+        return credentials.split("\\s+");
     }
 
     protected static boolean isCorrectCredentials(String[] credentialsOfStudent) {
@@ -238,7 +251,7 @@ public class Main {
         Student student = new Student(firstName, lastName, email);
         int id = 10000;
         if (!studentList.containsValue(student)) {
-            while(studentList.containsKey(id)) {
+            while (studentList.containsKey(id)) {
                 id++;
             }
             studentList.put(id, student);
@@ -268,7 +281,7 @@ public class Main {
             if ("back".equals(points[0])) {
                 break;
             } else {
-                if(checkPoints(points)) {
+                if (checkPoints(points)) {
                     updatePoints(points);
                 }
             }
@@ -397,6 +410,7 @@ public class Main {
         }
         return isFirstNameCorrect;
     }
+
     /*Accept only ASCII characters, from A to Z and from a to z as well as hyphens and apostrophes,
     at least two characters long, hyphens and apostrophes - not at the first or the last character,
     cannot be adjacent to each other.
@@ -449,7 +463,7 @@ public class Main {
     }
 
     private static void printStatsList(ArrayList<Stats> statsList) {
-        for(Stats stats : statsList) {
+        for (Stats stats : statsList) {
             System.out.printf("%d     %d      %s%n", stats.getId(), stats.getPoints(), stats.getCompleted());
         }
         statsList.clear();
@@ -458,12 +472,12 @@ public class Main {
     private static void sendNotification() {
 
         for (Student student : studentList.values()) {
-            for(String course : typeOfCourses) {
+            for (String course : typeOfCourses) {
                 if (student.getPoints(course.toLowerCase()) == student.getMaxPointsForCourse(course.toLowerCase())
                         && !student.isNotifiedCourse(course.toLowerCase())) {
                     System.out.printf("To: %s%n", student.email);
                     System.out.println("Re: Your Learning Progress");
-                    System.out.printf("Hello, %s %s! You have accomplished our %s course!%n",student.firstName, student.lastName, course);
+                    System.out.printf("Hello, %s %s! You have accomplished our %s course!%n", student.firstName, student.lastName, course);
                     student.setNotifiedCourse(course.toLowerCase());
                     notifiedStudents.add(student);
                 }
